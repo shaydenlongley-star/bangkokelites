@@ -387,11 +387,22 @@
   gsap.set(s0,       { opacity: 0, y: 40 });
   panels.forEach(p  => gsap.set(p, { transformPerspective: 1400, opacity: 0 }));
 
-  /* ── INTRO ON LOAD ── */
+  /* ── INTRO ON LOAD ──
+     Only play the ball fly-in if we're at the top of the page.
+     If the user refreshes mid-scroll, skip the intro and let
+     ScrollTrigger.refresh() instantly snap to the correct state. */
   window.addEventListener('load', () => {
-    gsap.timeline({ delay: 0.2 })
-      .to(ballWrap, { scale: 1, opacity: 1, duration: 1.4, ease: 'power3.out' }, 0)
-      .to(s0,       { opacity: 1, y: 0,    duration: 1.0, ease: 'power3.out' }, 0.5);
+    ScrollTrigger.refresh(); // force scrub to apply current scroll position
+
+    if (window.scrollY < 10) {
+      // At top — play intro animation
+      gsap.timeline({ delay: 0.2 })
+        .to(ballWrap, { scale: 1, opacity: 1, duration: 1.4, ease: 'power3.out' }, 0)
+        .to(s0,       { opacity: 1, y: 0,    duration: 1.0, ease: 'power3.out' }, 0.5);
+    } else {
+      // Already scrolled — show ball immediately, scrub handles everything else
+      gsap.set(ballWrap, { scale: 1, opacity: 1 });
+    }
   });
 
   /* ── MOUSE PARALLAX (x axis only — y is owned by scroll timeline) ── */
