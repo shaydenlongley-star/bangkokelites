@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/jpg" href="images/logo.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bangkok Elites — The Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-x: hidden; background: #07111a; }
+    body { font-family: 'Inter', sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
+
+    /* ── PINNED STAGE (GSAP handles the scroll height) ── */
+    .exp-stage {
+      width: 100%; height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1400px;
+      background: #07111a;
+    }
+
+    /* ── BACKGROUND GLOW ── */
+    .exp-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 60%, rgba(212,146,10,0.07) 0%, transparent 70%);
+    }
+
+    /* ── 3D GRID FLOOR ── */
+    .exp-grid {
+      position: absolute;
+      bottom: 0; left: -100%; width: 300%; height: 60%;
+      z-index: 1; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(212,146,10,0.065) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,146,10,0.065) 1px, transparent 1px);
+      background-size: 88px 88px;
+      transform: perspective(1000px) rotateX(72deg);
+      transform-origin: bottom center;
+    }
+    .exp-grid::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 45%;
+      background: linear-gradient(to bottom, #07111a, transparent);
+    }
+
+    /* ── BALL ── */
+    .exp-ball-wrap {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      width: 400px; height: 400px;
+      will-change: transform;
+    }
+    .exp-ball-glow {
+      position: absolute; inset: -60px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,146,10,0.28) 0%, transparent 65%);
+      filter: blur(24px);
+      animation: glowPulse 3.5s ease-in-out infinite alternate;
+    }
+    @keyframes glowPulse {
+      from { opacity: 0.5; transform: scale(0.88); }
+      to   { opacity: 1;   transform: scale(1.12); }
+    }
+    .exp-ball {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      will-change: transform;
+      filter: drop-shadow(0 40px 80px rgba(0,0,0,0.7)) drop-shadow(0 0 40px rgba(212,146,10,0.12));
+    }
+    .exp-ball-shadow {
+      position: absolute; bottom: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 220px; height: 28px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.55) 0%, transparent 70%);
+      filter: blur(12px);
+    }
+    @media (max-width: 768px) {
+      .exp-ball-wrap { width: 220px; height: 220px; top: 34%; }
+    }
+
+    /* ── HERO COPY ── */
+    .exp-hero {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 12; width: 90%;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+    .exp-hero-eyebrow {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      display: block; margin-bottom: 18px;
+    }
+    .exp-hero-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 7.5rem);
+      font-weight: 900; line-height: 1.0; color: #fff;
+      text-shadow: 0 0 120px rgba(212,146,10,0.28);
+    }
+    .exp-hero-h1 em { font-style: italic; color: rgba(255,255,255,0.65); }
+    .exp-hero-sub {
+      margin-top: 22px;
+      font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+      color: rgba(255,255,255,0.35); letter-spacing: 0.1em;
+    }
+
+    /* ── PANELS ── */
+    .exp-panel {
+      position: absolute;
+      top: 50%;
+      width: 36%; max-width: 440px;
+      z-index: 12; opacity: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+    .exp-panel.panel-left  { left: 4%;  transform: translateY(-50%); }
+    .exp-panel.panel-right { right: 4%; transform: translateY(-50%); text-align: right; }
+    .exp-panel.panel-center {
+      left: 50%; transform: translate(-50%, -50%);
+      width: 58%; max-width: 680px; text-align: center;
+    }
+
+    .panel-eyebrow {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: #d4920a; display: block; margin-bottom: 14px;
+    }
+    .panel-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 900; line-height: 1.1; color: #fff; margin-bottom: 18px;
+    }
+    .panel-divider {
+      width: 44px; height: 3px;
+      background: linear-gradient(90deg, #0f1923, #d4920a);
+      border-radius: 2px; margin: 0 0 20px;
+    }
+    .panel-right .panel-divider  { margin: 0 0 20px auto; }
+    .panel-center .panel-divider { margin: 0 auto 20px; }
+    .panel-body {
+      font-size: clamp(0.88rem, 1.1vw, 1rem);
+      line-height: 1.85; color: rgba(255,255,255,0.55);
+    }
+    .panel-stat {
+      margin-top: 24px; display: flex; gap: 28px;
+    }
+    .panel-right .panel-stat  { justify-content: flex-end; }
+    .panel-center .panel-stat { justify-content: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 900; color: #d4920a; line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-top: 4px;
+    }
+    .panel-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 30px; background: #d4920a; color: #fff;
+      font-weight: 600; font-size: 0.95rem;
+      border-radius: 10px; text-decoration: none; margin-top: 28px;
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+      pointer-events: all;
+    }
+    .panel-cta:hover { background: #b87a08; transform: translateY(-3px); box-shadow: 0 12px 36px rgba(212,146,10,0.35); }
+    .panel-cta-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 30px; background: transparent; color: rgba(255,255,255,0.6);
+      font-weight: 500; font-size: 0.9rem;
+      border-radius: 10px; text-decoration: none; margin-top: 28px; margin-left: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: border-color 0.3s, color 0.3s;
+      pointer-events: all;
+    }
+    .panel-cta-ghost:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+    @media (max-width: 900px) {
+      .exp-panel {
+        width: 82% !important; left: 9% !important; right: 9% !important;
+        text-align: center !important; top: auto !important;
+        bottom: 8% !important; transform: none !important;
+      }
+      .panel-divider { margin-left: auto !important; margin-right: auto !important; }
+      .panel-stat { justify-content: center !important; }
+      .panel-cta-ghost { margin-left: 0; margin-top: 12px; }
+    }
+
+    /* ── UI CHROME ── */
+    .exp-back {
+      position: fixed; top: 24px; left: 24px; z-index: 200;
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); text-decoration: none;
+      transition: color 0.3s;
+    }
+    .exp-back:hover { color: #d4920a; }
+
+    .exp-section-id {
+      position: fixed; top: 24px; right: 28px; z-index: 200;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+    }
+
+    .exp-progress-bar {
+      position: fixed; top: 0; left: 0; height: 2px; z-index: 300;
+      background: linear-gradient(90deg, #0f1923, #d4920a, #f5c53a);
+      width: 0%; pointer-events: none;
+    }
+
+    .exp-dots {
+      position: fixed; bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 10px; z-index: 200;
+    }
+    .exp-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      transition: background 0.4s, transform 0.4s;
+      cursor: pointer;
+    }
+    .exp-dot.active { background: #d4920a; transform: scale(1.5); }
+
+    .exp-scroll-hint {
+      position: absolute; bottom: 64px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); z-index: 20; pointer-events: none;
+    }
+    .exp-scroll-line {
+      width: 1px; height: 44px;
+      background: linear-gradient(to bottom, rgba(212,146,10,0.65), transparent);
+      animation: linePulse 2s ease-in-out infinite;
+    }
+    @keyframes linePulse {
+      0%,100% { opacity: 1; transform: scaleY(1); }
+      50%     { opacity: 0.35; transform: scaleY(0.55); }
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="exp-back">← Main Site</a>
+<div class="exp-section-id" id="expId">01 / 06</div>
+<div class="exp-progress-bar" id="expProg"></div>
+<div class="exp-dots" id="expDots">
+  <div class="exp-dot active"></div>
+  <div class="exp-dot"></div>
+  <div class="exp-dot"></div>
+  <div class="exp-dot"></div>
+  <div class="exp-dot"></div>
+  <div class="exp-dot"></div>
+</div>
+
+<!-- GSAP pins this and creates scroll space automatically -->
+<div class="exp-stage" id="expStage">
+
+  <div class="exp-bg"></div>
+  <div class="exp-grid"></div>
+
+  <!-- Ball -->
+  <div class="exp-ball-wrap" id="expBallWrap">
+    <div class="exp-ball-glow"></div>
+    <img class="exp-ball" id="expBall" src="images/download-removebg-preview.png" alt="Rugby ball" draggable="false">
+    <div class="exp-ball-shadow"></div>
+  </div>
+
+  <!-- Section 0 — Hero -->
+  <div class="exp-hero" id="s0">
+    <span class="exp-hero-eyebrow">Bangkok, Thailand — Est. 2025</span>
+    <h1 class="exp-hero-h1">Built for<br><em>the Bold.</em></h1>
+    <p class="exp-hero-sub">Bangkok Elites &nbsp;·&nbsp; Youth Rugby Club &nbsp;·&nbsp; Ages 14 to 17</p>
+  </div>
+
+  <!-- Section 1 — Character (LEFT) -->
+  <div class="exp-panel panel-left" id="s1">
+    <span class="panel-eyebrow">01 — Character</span>
+    <h2 class="panel-heading">Rugby Builds<br>Who You Are</h2>
+    <div class="panel-divider"></div>
+    <p class="panel-body">Every scrum teaches you to hold your ground. Every tackle builds courage. Every early morning session teaches you that discipline isn't punishment — it's the price of being great.<br><br>Rugby doesn't just build athletes. It builds people who know exactly who they are.</p>
+    <div class="panel-stat">
+      <div><div class="stat-num">14–17</div><div class="stat-label">Age Group</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">No Excuses</div></div>
+    </div>
+  </div>
+
+  <!-- Section 2 — Brotherhood (RIGHT) -->
+  <div class="exp-panel panel-right" id="s2">
+    <span class="panel-eyebrow">02 — Brotherhood</span>
+    <h2 class="panel-heading">Find Your<br>People</h2>
+    <div class="panel-divider"></div>
+    <p class="panel-body">The friendships you build on a rugby pitch are different. When you've trained through Bangkok heat together, celebrated and lost together — those bonds do not break.<br><br>Bangkok Elites isn't just a club. It's where your closest friendships begin.</p>
+    <div class="panel-stat">
+      <div><div class="stat-num">15</div><div class="stat-label">Players a Side</div></div>
+      <div><div class="stat-num">1</div><div class="stat-label">Team. Always.</div></div>
+    </div>
+  </div>
+
+  <!-- Section 3 — Discipline (LEFT) -->
+  <div class="exp-panel panel-left" id="s3">
+    <span class="panel-eyebrow">03 — Discipline</span>
+    <h2 class="panel-heading">The Work<br>Never Lies</h2>
+    <div class="panel-divider"></div>
+    <p class="panel-body">You can't fake fitness. You can't charm your way out of a tackle. Rugby is completely honest — it shows you exactly where you are.<br><br>The discipline you earn on this pitch follows you into every classroom, every exam, every ambition you ever chase in life.</p>
+    <div class="panel-stat">
+      <div><div class="stat-num">80</div><div class="stat-label">Min. Every Match</div></div>
+      <div><div class="stat-num">0</div><div class="stat-label">Shortcuts</div></div>
+    </div>
+  </div>
+
+  <!-- Section 4 — Belonging (RIGHT) -->
+  <div class="exp-panel panel-right" id="s4">
+    <span class="panel-eyebrow">04 — Belonging</span>
+    <h2 class="panel-heading">Bangkok Is<br>Our Pitch</h2>
+    <div class="panel-divider"></div>
+    <p class="panel-body">In a city of 10 million people, it's easy to feel like you don't have a place. Bangkok Elites exists to change that.<br><br>Whether you've played your whole life or never touched a ball — if you've got the energy and the hunger to compete, you've got a spot in this squad.</p>
+    <div class="panel-stat">
+      <div><div class="stat-num">BKK</div><div class="stat-label">Home Ground</div></div>
+      <div><div class="stat-num">∞</div><div class="stat-label">Room to Grow</div></div>
+    </div>
+  </div>
+
+  <!-- Section 5 — CTA (CENTER) -->
+  <div class="exp-panel panel-center" id="s5">
+    <span class="panel-eyebrow">Bangkok Elites — Join the Squad</span>
+    <h2 class="panel-heading">Think You've Got<br>What It Takes?</h2>
+    <div class="panel-divider"></div>
+    <p class="panel-body" style="max-width:520px;margin:0 auto;">Spots are open. No experience needed — just energy, attitude, and a competitive mindset. Drop us a message on Instagram and come find out what Bangkok Elites is all about. First session is always free.</p>
+    <div style="display:flex;gap:0;justify-content:center;flex-wrap:wrap;">
+      <a href="https://www.instagram.com/bangkokeliterugby/" target="_blank" rel="noopener" class="panel-cta">
+        Message Us on Instagram
+      </a>
+      <a href="index.html" class="panel-cta-ghost">Back to Main Site</a>
+    </div>
+  </div>
+
+  <!-- Scroll hint (hides after scroll starts) -->
+  <div class="exp-scroll-hint" id="expScrollHint">
+    <div class="exp-scroll-line"></div>
+    Scroll
+  </div>
+
+</div><!-- end #expStage -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+(function () {
+  'use strict';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const ballWrap   = document.getElementById('expBallWrap');
+  const ball       = document.getElementById('expBall');
+  const progBar    = document.getElementById('expProg');
+  const scrollHint = document.getElementById('expScrollHint');
+  const sectionId  = document.getElementById('expId');
+  const dots       = document.querySelectorAll('.exp-dot');
+  const s0         = document.getElementById('s0');
+  const panels     = ['s1','s2','s3','s4','s5'].map(id => document.getElementById(id));
+  const S_LABELS   = ['01 / 06','02 / 06','03 / 06','04 / 06','05 / 06','06 / 06'];
+
+  /* ── INITIAL STATES ── */
+  gsap.set(ballWrap, { scale: 0.4, opacity: 0 });
+  gsap.set(s0,       { opacity: 0, y: 40 });
+  panels.forEach(p  => gsap.set(p, { transformPerspective: 1400, opacity: 0 }));
+
+  /* ── INTRO ON LOAD ── */
+  window.addEventListener('load', () => {
+    gsap.timeline({ delay: 0.2 })
+      .to(ballWrap, { scale: 1, opacity: 1, duration: 1.4, ease: 'power3.out' }, 0)
+      .to(s0,       { opacity: 1, y: 0,    duration: 1.0, ease: 'power3.out' }, 0.5);
+  });
+
+  /* ── MOUSE PARALLAX (x axis only — y is owned by scroll timeline) ── */
+  document.addEventListener('mousemove', e => {
+    const mx = (e.clientX / window.innerWidth - 0.5);
+    gsap.to(ballWrap, { x: mx * 30, duration: 2.0, ease: 'power2.out', overwrite: 'auto' });
+  });
+
+  /* ── DOT / LABEL UPDATER ── */
+  function setSection(idx) {
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    sectionId.textContent = S_LABELS[Math.min(idx, 5)];
+    scrollHint.style.opacity = idx === 0 ? '1' : '0';
+  }
+
+  /* ══════════════════════════════════════════════════════
+     MAIN SCROLL TIMELINE
+     Timeline is 6 units long (ball rotation = duration:6).
+     Each "section" occupies exactly 1 unit:
+       Section 0 (hero):   0 → 1
+       Section 1 (panel1): 1 → 2
+       Section 2 (panel2): 2 → 3
+       Section 3 (panel3): 3 → 4
+       Section 4 (panel4): 4 → 5
+       Section 5 (CTA):    5 → 6
+     All position values below are in these 0–6 units.
+  ══════════════════════════════════════════════════════ */
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger:    '#expStage',
+      start:      'top top',
+      end:        '+=600%',
+      pin:        true,
+      pinSpacing: true,
+      scrub:      1.5,
+      onUpdate: self => {
+        progBar.style.width = (self.progress * 100) + '%';
+        setSection(Math.min(5, Math.floor(self.progress * 6)));
+      }
+    }
+  });
+
+  /* ── Ball: 4 full rotations across 6 units ── */
+  tl.to(ball, { rotation: 1440, ease: 'none', duration: 6 }, 0);
+
+  /* ── Ball: vertical drift, one tween per section ── */
+  tl.to(ballWrap, { y: -50, ease: 'sine.inOut', duration: 1 }, 1);
+  tl.to(ballWrap, { y:  35, ease: 'sine.inOut', duration: 1 }, 2);
+  tl.to(ballWrap, { y: -35, ease: 'sine.inOut', duration: 1 }, 3);
+  tl.to(ballWrap, { y:  40, ease: 'sine.inOut', duration: 1 }, 4);
+  tl.to(ballWrap, { y:   0, ease: 'sine.inOut', duration: 1 }, 5);
+
+  /* ── Ball: scale pulse once per section ── */
+  tl.to(ballWrap, { scale: 1.15, ease: 'power2.inOut', duration: 0.25 }, 1.1);
+  tl.to(ballWrap, { scale: 1.0,  ease: 'power2.inOut', duration: 0.25 }, 1.4);
+  tl.to(ballWrap, { scale: 0.9,  ease: 'power2.inOut', duration: 0.25 }, 2.1);
+  tl.to(ballWrap, { scale: 1.0,  ease: 'power2.inOut', duration: 0.25 }, 2.4);
+  tl.to(ballWrap, { scale: 1.12, ease: 'power2.inOut', duration: 0.25 }, 3.1);
+  tl.to(ballWrap, { scale: 1.0,  ease: 'power2.inOut', duration: 0.25 }, 3.4);
+  tl.to(ballWrap, { scale: 0.92, ease: 'power2.inOut', duration: 0.25 }, 4.1);
+  tl.to(ballWrap, { scale: 1.0,  ease: 'power2.inOut', duration: 0.25 }, 4.4);
+  tl.to(ballWrap, { scale: 1.06, ease: 'power2.inOut', duration: 0.4  }, 5.1);
+
+  /* ── Hero fades out at 75% of section 0 ── */
+  tl.to(s0, { opacity: 0, y: -40, duration: 0.25, ease: 'power2.in' }, 0.75);
+
+  /* ── Panel 1 (LEFT): visible during section 1 ──
+     Enters at 1.15, fully out by 1.85 (exit starts at 1.75) */
+  tl.fromTo(panels[0],
+    { opacity: 0, x: '-80vw', rotateY: -40 },
+    { opacity: 1, x: 0,       rotateY: 0,   duration: 0.4, ease: 'power3.out' },
+    1.15
+  );
+  tl.to(panels[0], { opacity: 0, x: '-60vw', rotateY: 30, duration: 0.25, ease: 'power2.in' }, 1.75);
+
+  /* ── Panel 2 (RIGHT): visible during section 2 ── */
+  tl.fromTo(panels[1],
+    { opacity: 0, x: '80vw', rotateY: 40 },
+    { opacity: 1, x: 0,      rotateY: 0,  duration: 0.4, ease: 'power3.out' },
+    2.15
+  );
+  tl.to(panels[1], { opacity: 0, x: '60vw', rotateY: -30, duration: 0.25, ease: 'power2.in' }, 2.75);
+
+  /* ── Panel 3 (LEFT): visible during section 3 ── */
+  tl.fromTo(panels[2],
+    { opacity: 0, x: '-80vw', rotateY: -40 },
+    { opacity: 1, x: 0,       rotateY: 0,   duration: 0.4, ease: 'power3.out' },
+    3.15
+  );
+  tl.to(panels[2], { opacity: 0, x: '-60vw', rotateY: 30, duration: 0.25, ease: 'power2.in' }, 3.75);
+
+  /* ── Panel 4 (RIGHT): visible during section 4 ── */
+  tl.fromTo(panels[3],
+    { opacity: 0, x: '80vw', rotateY: 40 },
+    { opacity: 1, x: 0,      rotateY: 0,  duration: 0.4, ease: 'power3.out' },
+    4.15
+  );
+  tl.to(panels[3], { opacity: 0, x: '60vw', rotateY: -30, duration: 0.25, ease: 'power2.in' }, 4.75);
+
+  /* ── Panel 5 (CTA CENTER): visible during section 5, stays ── */
+  tl.fromTo(panels[4],
+    { opacity: 0, scale: 0.8, y: 50 },
+    { opacity: 1, scale: 1,   y: 0,  duration: 0.5, ease: 'power3.out' },
+    5.15
+  );
+
+  /* ── Dot click to jump ── */
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      const triggers = ScrollTrigger.getAll();
+      const st = triggers[0];
+      if (!st) return;
+      const scrollTarget = st.start + (st.end - st.start) * (i / 6);
+      window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+    });
+  });
+
+})();
+</script>
+</body>
+</html>

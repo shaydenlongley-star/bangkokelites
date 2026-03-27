@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bangkok Elites Youth Rugby Club — Bangkok's home for players aged 14–17. Play hard. Train harder. Built for the bold.">
+  <title>Bangkok Elites — Youth Rugby Club</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bangkok Elites">
+  <meta property="og:title" content="Bangkok Elites — Youth Rugby Club">
+  <meta property="og:description" content="Bangkok's youth rugby club for players aged 14–17. Built for the bold.">
+  <meta property="og:url" content="https://bangkokelites.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bangkok Elites — Youth Rugby Club">
+  <meta name="twitter:description" content="Bangkok's youth rugby club for players aged 14–17. Built for the bold.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=1">
+
+  <!-- CRITICAL MOBILE CSS — inline to bypass cache -->
+  <style>
+    @media(max-width:900px){
+      .nav-menu{display:flex!important;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;min-height:100vh!important;background:#0f1923!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:4px!important;padding:96px 28px 40px!important;overflow-y:auto!important;z-index:9999!important;opacity:0!important;transform:translateX(100%)!important;pointer-events:none!important;transition:opacity .35s ease,transform .35s cubic-bezier(.4,0,.2,1)!important}
+      .nav-menu.open{opacity:1!important;transform:translateX(0)!important;pointer-events:all!important}
+      .nav-toggle{display:flex!important;z-index:10000!important;position:relative!important}
+      .nav-menu a{font-size:1.1rem!important;padding:13px 28px!important;font-weight:700!important;color:rgba(255,255,255,0.85)!important;width:100%!important;text-align:center!important;display:block!important;border-radius:8px!important}
+      .nav-menu a:hover,.nav-menu a.active{color:#fff!important;background:rgba(255,255,255,0.07)!important}
+      .nav-cta{background:#d4920a!important;border-radius:6px!important;margin-top:12px!important}
+      .grid-3{grid-template-columns:1fr!important}
+    }
+    html,body{overflow-x:hidden!important}
+    @media(max-width:900px){
+      .hero{min-height:auto!important;padding-top:calc(72px + 20px)!important;padding-bottom:32px!important}
+      .hero p{font-size:1.05rem!important;line-height:1.65!important;margin-bottom:22px!important}
+      .hero h1,.hero-eyebrow{margin-bottom:16px!important}
+      .hero-actions{gap:10px!important}
+      .hero-blob-1{width:320px!important;height:320px!important}
+      .hero-blob-2{width:280px!important;height:280px!important}
+      .hero-blob-3{width:220px!important;height:220px!important}
+    }
+    @media(max-width:640px){
+      .btn{white-space:normal!important}
+      .cta-actions,.hero-actions{flex-direction:column!important;align-items:flex-start!important}
+      .cta-actions{align-items:center!important}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============ CUSTOM CURSOR + SPOTLIGHT ============ -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="spotlight" id="spotlight"></div>
+
+<!-- ============ BALL INTRO ============ -->
+<div class="ball-intro" id="ballIntro" aria-hidden="true">
+  <img src="images/download-removebg-preview.png" alt="" draggable="false">
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="images/logo.jpg" alt="Bangkok Elites" style="height:44px;width:auto;">
+      <div class="nav-logo-text">
+        <strong>Bangkok Elites</strong>
+        <span>Youth Rugby Club</span>
+      </div>
+    </a>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#training">Training</a></li>
+      <li><a href="experience.html">The Experience</a></li>
+      <li><a href="#join" class="nav-cta">Join the Squad</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="icon" data-icon="menu" style="width:24px;height:24px;"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-blobs">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+  </div>
+  <div class="hero-noise"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="icon" data-icon="star" style="width:14px;height:14px;"></span>
+        Bangkok's Youth Rugby Club
+      </div>
+      <h1 id="heroHeadline">Built for the Bold.</h1>
+      <p>Bangkok Elites is the city's youth rugby club — built for players aged 14 to 17 who want to play hard, push their limits, and be part of something real.</p>
+      <div class="hero-actions">
+        <a href="https://www.instagram.com/bangkokeliterugby/" target="_blank" rel="noopener" class="btn btn-primary">
+          Join the Squad
+          <span class="icon" data-icon="arrow-right" style="width:18px;height:18px;"></span>
+        </a>
+        <a href="#about" class="btn btn-ghost">Find Out More</a>
+      </div>
+    </div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1440 72" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0 72V36C240 0 480 0 720 18S1200 54 1440 36V72H0Z" fill="#ffffff"/>
+  </svg>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div></div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Bangkok Elites<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Play Hard<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Train Harder<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Ages 14–17<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Rugby Union<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Bangkok<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Hit Different<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Represent<span class="marquee-dot"></span></span>
+    <!-- Duplicate for seamless loop -->
+    <span class="marquee-item">Bangkok Elites<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Play Hard<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Train Harder<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Ages 14–17<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Rugby Union<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Bangkok<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Hit Different<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Represent<span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-header" id="aboutHeader">
+      <span class="eyebrow">Who We Are</span>
+      <h2>Young. Hungry. Bangkok.</h2>
+      <div class="divider"></div>
+      <p>Bangkok Elites started with a simple idea: Bangkok needed a rugby club for the next generation. No gatekeeping, no politics — just real rugby and a crew that pushes each other to be better every single session.</p>
+      <p style="margin-bottom:0;">Whether you've played your whole life or never touched a ball, if you've got the attitude, you've got a spot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PILLARS ============ -->
+<section class="pillars-section" id="pillars">
+  <div class="container">
+    <div class="pillars-grid">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <h3>Play Hard</h3>
+        <p>Every session, every rep, every match. We leave everything on the pitch.</p>
+        <div class="pillar-line"></div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <h3>Train Harder</h3>
+        <p>The work you put in off the pitch defines what happens on it. No shortcuts.</p>
+        <div class="pillar-line"></div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <h3>Represent</h3>
+        <p>Bangkok Elites. On the pitch and off it, you carry the name with pride.</p>
+        <div class="pillar-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INFO CARDS ============ -->
+<section class="section bg-light" id="training">
+  <div class="container">
+    <div class="section-header" id="trainingHeader">
+      <span class="eyebrow">Get on the Pitch</span>
+      <h2>Everything You Need to Know</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="grid-3">
+      <div class="perk-card">
+        <div class="perk-icon">
+          <span class="icon" data-icon="users" style="width:24px;height:24px;"></span>
+        </div>
+        <h4>Who Can Play</h4>
+        <p>Open to players aged 14–17. No experience needed — just energy, commitment, and a competitive mindset.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">
+          <span class="icon" data-icon="map-pin" style="width:24px;height:24px;"></span>
+        </div>
+        <h4>Based in Bangkok</h4>
+        <p>We're based right here in Bangkok. Slide into our DMs on Instagram to find out about our next session.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">
+          <span class="icon" data-icon="heart" style="width:24px;height:24px;"></span>
+        </div>
+        <h4>The Elites Way</h4>
+        <p>A club built by young players, for young players. Come for the sport. Stay for the brotherhood.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOIN CTA ============ -->
+<section class="cta-section" id="join">
+  <div class="container">
+    <div id="ctaContent">
+      <span class="eyebrow" style="color:rgba(255,255,255,0.55);">Get Involved</span>
+      <h2>Think You've Got What It Takes?</h2>
+      <p>Spots are open. Drop us a message on Instagram and come see what Bangkok Elites is all about.</p>
+      <div class="cta-actions">
+        <a href="https://www.instagram.com/bangkokeliterugby/" target="_blank" rel="noopener" class="btn btn-primary">
+          <span class="icon" data-icon="instagram" style="width:18px;height:18px;"></span>
+          Message Us on Instagram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-brand-bar">
+    <div class="container">
+      <span class="footer-brand-statement">Bangkok Elites — Built for the Bold.</span>
+    </div>
+  </div>
+  <div class="footer-main">
+    <div class="container" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;">
+      <a href="#" class="nav-logo">
+        <img src="images/logo.jpg" alt="Bangkok Elites" style="height:40px;width:auto;">
+        <div class="nav-logo-text">
+          <strong style="color:#fff;">Bangkok Elites</strong>
+          <span>Youth Rugby Club</span>
+        </div>
+      </a>
+      <p style="max-width:420px;font-size:0.9rem;margin-bottom:0;">
+        Bangkok's youth rugby club for players aged 14 to 17.<br>
+        Come play. Come grow. Come represent.
+      </p>
+      <a href="https://www.instagram.com/bangkokeliterugby/" target="_blank" rel="noopener" class="btn btn-outline">
+        <span class="icon" data-icon="instagram" style="width:18px;height:18px;"></span>
+        Follow on Instagram
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" style="display:flex;justify-content:center;align-items:center;text-align:center;">
+      <span>© <span id="year"></span> Bangkok Elites. All rights reserved. Bangkok, Thailand.</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="back-to-top" aria-label="Back to top">
+  <span class="icon" data-icon="arrow-up" style="width:20px;height:20px;"></span>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/icons.js?v=1"></script>
+<script src="js/main.js?v=1"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
