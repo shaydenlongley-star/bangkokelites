@@ -292,31 +292,6 @@
 
   } // end GSAP block
 
-  /* ═══════════════════════════════════════════
-     EFFECT 4 — CURSOR SPOTLIGHT
-  ═══════════════════════════════════════════ */
-  const spotlight = document.getElementById('spotlight');
-  if (spotlight && window.matchMedia('(pointer: fine)').matches) {
-    const darkSelectors = ['.hero', '.pillars-section', '.cta-section', '.footer'];
-
-    const isInDark = () => darkSelectors.some(sel => {
-      const el = document.querySelector(sel);
-      if (!el) return false;
-      const r = el.getBoundingClientRect();
-      return r.top < window.innerHeight * 0.65 && r.bottom > window.innerHeight * 0.35;
-    });
-
-    document.addEventListener('mousemove', e => {
-      const px = (e.clientX / window.innerWidth)  * 100;
-      const py = (e.clientY / window.innerHeight) * 100;
-      spotlight.style.background = `radial-gradient(circle 420px at ${px}% ${py}%, transparent 0%, rgba(7,13,20,0.42) 100%)`;
-      spotlight.style.opacity = isInDark() ? '1' : '0';
-    });
-
-    window.addEventListener('scroll', () => {
-      spotlight.style.opacity = isInDark() ? '1' : '0';
-    }, { passive: true });
-  }
 
   /* ═══════════════════════════════════════════
      EFFECT 5 — PARTICLE BURST ON CTA CLICK

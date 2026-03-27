@@ -294,16 +294,6 @@ img { max-width: 100%; display: block; }
 .hero-word-inner { display: inline-block; }
 
 /* ============================================
-   SPOTLIGHT
-   ============================================ */
-.spotlight {
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 9997;
-  background: radial-gradient(circle 420px at 50% 50%, transparent 0%, rgba(7,13,20,0.42) 100%);
-  opacity: 0; transition: opacity 0.4s ease;
-}
-
-/* ============================================
    PARTICLES
    ============================================ */
 .particle {
