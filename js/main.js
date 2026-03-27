@@ -8,18 +8,6 @@
   window.scrollTo(0, 0);
 
 
-  /* ── LENIS SMOOTH SCROLL ── */
-  let lenis;
-  if (typeof Lenis !== 'undefined') {
-    lenis = new Lenis({
-      duration: 1.3,
-      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-    });
-    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-  }
-
   /* ── SCROLL VELOCITY TRACKER (for marquee) ── */
   let scrollVelocity = 0;
   let _lastSY = 0;
@@ -35,12 +23,6 @@
   /* ── GSAP + SCROLLTRIGGER ── */
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
-
-    if (lenis) {
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add(time => lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0);
-    }
 
     /* ═══════════════════════════════════════════
        HERO ENTRANCE + TEXT GLITCH / SCRAMBLE [1,2]
@@ -427,8 +409,7 @@
       const t = document.querySelector(a.getAttribute('href'));
       if (!t) return;
       e.preventDefault();
-      if (lenis) lenis.scrollTo(t, { offset: -88 });
-      else window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 88, behavior: 'smooth' });
+      window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 88, behavior: 'smooth' });
     });
   });
 
@@ -459,8 +440,7 @@
     window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 400), { passive: true });
     btt.addEventListener('click', e => {
       e.preventDefault();
-      if (lenis) lenis.scrollTo(0);
-      else window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
