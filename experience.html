@@ -282,21 +282,21 @@
   <div class="exp-grid"></div>
 
   <!-- Ball -->
-  <div class="exp-ball-wrap" id="expBallWrap">
+  <div class="exp-ball-wrap" id="expBallWrap" style="opacity:0;transform:translate(-50%,-50%) scale(0.4)">
     <div class="exp-ball-glow"></div>
     <img class="exp-ball" id="expBall" src="images/download-removebg-preview.png" alt="Rugby ball" draggable="false">
     <div class="exp-ball-shadow"></div>
   </div>
 
   <!-- Section 0 — Hero -->
-  <div class="exp-hero" id="s0">
+  <div class="exp-hero" id="s0" style="opacity:0">
     <span class="exp-hero-eyebrow">Bangkok, Thailand — Est. 2025</span>
     <h1 class="exp-hero-h1">Built for<br><em>the <span class="gold">Bold.</span></em></h1>
     <p class="exp-hero-sub">Bangkok Elites &nbsp;·&nbsp; Youth Rugby Club &nbsp;·&nbsp; Ages 14 to 17</p>
   </div>
 
   <!-- Section 1 — Character (LEFT) -->
-  <div class="exp-panel panel-left" id="s1">
+  <div class="exp-panel panel-left" id="s1" style="opacity:0">
     <span class="panel-eyebrow">01 — Character</span>
     <h2 class="panel-heading">Rugby Builds<br>Who You Are</h2>
     <div class="panel-divider"></div>
@@ -308,7 +308,7 @@
   </div>
 
   <!-- Section 2 — Brotherhood (RIGHT) -->
-  <div class="exp-panel panel-right" id="s2">
+  <div class="exp-panel panel-right" id="s2" style="opacity:0">
     <span class="panel-eyebrow">02 — Brotherhood</span>
     <h2 class="panel-heading">Find Your<br>People</h2>
     <div class="panel-divider"></div>
@@ -320,7 +320,7 @@
   </div>
 
   <!-- Section 3 — Discipline (LEFT) -->
-  <div class="exp-panel panel-left" id="s3">
+  <div class="exp-panel panel-left" id="s3" style="opacity:0">
     <span class="panel-eyebrow">03 — Discipline</span>
     <h2 class="panel-heading">The Work<br>Never Lies</h2>
     <div class="panel-divider"></div>
@@ -332,7 +332,7 @@
   </div>
 
   <!-- Section 4 — Belonging (RIGHT) -->
-  <div class="exp-panel panel-right" id="s4">
+  <div class="exp-panel panel-right" id="s4" style="opacity:0">
     <span class="panel-eyebrow">04 — Belonging</span>
     <h2 class="panel-heading">Bangkok Is<br>Our Pitch</h2>
     <div class="panel-divider"></div>
@@ -344,7 +344,7 @@
   </div>
 
   <!-- Section 5 — CTA (CENTER) -->
-  <div class="exp-panel panel-center" id="s5">
+  <div class="exp-panel panel-center" id="s5" style="opacity:0">
     <span class="panel-eyebrow">Bangkok Elites — Join the Squad</span>
     <h2 class="panel-heading">Think You've Got<br>What It Takes?</h2>
     <div class="panel-divider"></div>
@@ -370,6 +370,8 @@
 <script>
 (function () {
   'use strict';
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
   gsap.registerPlugin(ScrollTrigger);
 
   const ballWrap   = document.getElementById('expBallWrap');
@@ -387,22 +389,11 @@
   gsap.set(s0,       { opacity: 0, y: 40 });
   panels.forEach(p  => gsap.set(p, { transformPerspective: 1400, opacity: 0 }));
 
-  /* ── INTRO ON LOAD ──
-     Only play the ball fly-in if we're at the top of the page.
-     If the user refreshes mid-scroll, skip the intro and let
-     ScrollTrigger.refresh() instantly snap to the correct state. */
+  /* ── INTRO ON LOAD — page always starts at top due to scrollTo(0,0) ── */
   window.addEventListener('load', () => {
-    ScrollTrigger.refresh(); // force scrub to apply current scroll position
-
-    if (window.scrollY < 10) {
-      // At top — play intro animation
-      gsap.timeline({ delay: 0.2 })
-        .to(ballWrap, { scale: 1, opacity: 1, duration: 1.4, ease: 'power3.out' }, 0)
-        .to(s0,       { opacity: 1, y: 0,    duration: 1.0, ease: 'power3.out' }, 0.5);
-    } else {
-      // Already scrolled — show ball immediately, scrub handles everything else
-      gsap.set(ballWrap, { scale: 1, opacity: 1 });
-    }
+    gsap.timeline({ delay: 0.2 })
+      .to(ballWrap, { scale: 1, opacity: 1, duration: 1.4, ease: 'power3.out' }, 0)
+      .to(s0,       { opacity: 1, y: 0,    duration: 1.0, ease: 'power3.out' }, 0.5);
   });
 
   /* ── MOUSE PARALLAX (x axis only — y is owned by scroll timeline) ── */
