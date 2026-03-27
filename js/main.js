@@ -335,7 +335,7 @@
     document.addEventListener('mousemove', e => {
       const px = (e.clientX / window.innerWidth)  * 100;
       const py = (e.clientY / window.innerHeight) * 100;
-      spotlight.style.background = `radial-gradient(circle 300px at ${px}% ${py}%, transparent 0%, rgba(7,13,20,0.8) 100%)`;
+      spotlight.style.background = `radial-gradient(circle 420px at ${px}% ${py}%, transparent 0%, rgba(7,13,20,0.42) 100%)`;
       spotlight.style.opacity = isInDark() ? '1' : '0';
     });
 
