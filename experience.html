@@ -93,24 +93,30 @@
       z-index: 12; width: 90%;
       pointer-events: none;
       will-change: transform, opacity;
+      /* dark radial backdrop so text always reads over the ball */
+      background: radial-gradient(ellipse 65% 55% at center, rgba(7,17,26,0.72) 0%, transparent 100%);
+      padding: 60px 40px;
+      border-radius: 50%;
     }
     .exp-hero-eyebrow {
       font-size: 0.68rem; font-weight: 700;
       letter-spacing: 0.26em; text-transform: uppercase;
-      color: rgba(255,255,255,0.38);
+      color: rgba(255,255,255,0.55);
       display: block; margin-bottom: 18px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.8);
     }
     .exp-hero-h1 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(3rem, 9vw, 7.5rem);
       font-weight: 900; line-height: 1.0; color: #fff;
-      text-shadow: 0 0 120px rgba(212,146,10,0.28);
+      text-shadow: 0 2px 24px rgba(0,0,0,0.95), 0 0 80px rgba(7,17,26,0.9);
     }
-    .exp-hero-h1 em { font-style: italic; color: rgba(255,255,255,0.65); }
+    .exp-hero-h1 em { font-style: italic; color: rgba(255,255,255,0.75); }
     .exp-hero-sub {
       margin-top: 22px;
       font-size: clamp(0.8rem, 1.4vw, 0.95rem);
-      color: rgba(255,255,255,0.35); letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.55); letter-spacing: 0.1em;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.9);
     }
 
     /* ── PANELS ── */
