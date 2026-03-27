@@ -91,14 +91,6 @@ img { max-width: 100%; display: block; }
   .ball-intro { width: 180px; height: 180px; }
 }
 
-/* ============================================
-   SCROLL PROGRESS BAR
-   ============================================ */
-.scroll-progress {
-  position: fixed; top: 0; left: 0; height: 3px; z-index: 10001;
-  background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-light));
-  width: 0%; transition: width 0.1s linear; pointer-events: none;
-}
 
 
 /* ============================================
@@ -176,9 +168,6 @@ img { max-width: 100%; display: block; }
 .hero p  { color: rgba(255,255,255,0.75); font-size: 1.15rem; line-height: 1.7; margin-bottom: 36px; max-width: 580px; }
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 .hero-wave { position: absolute; bottom: -1px; left: 0; right: 0; z-index: 6; width: 100%; height: 72px; }
-.hero-scroll { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.hero-scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent); animation: scrollBounce 2s ease-in-out infinite; }
-@keyframes scrollBounce { 0%,100%{transform:scaleY(1);opacity:1;} 50%{transform:scaleY(0.6);opacity:0.4;} }
 
 /* ============================================
    MARQUEE TICKER

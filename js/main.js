@@ -7,14 +7,6 @@
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.scrollTo(0, 0);
 
-  /* ── SCROLL PROGRESS BAR ── */
-  const prog = document.createElement('div');
-  prog.className = 'scroll-progress';
-  document.body.prepend(prog);
-  window.addEventListener('scroll', () => {
-    const s = document.documentElement;
-    prog.style.width = ((window.scrollY / (s.scrollHeight - s.clientHeight)) * 100) + '%';
-  }, { passive: true });
 
   /* ── LENIS SMOOTH SCROLL ── */
   let lenis;
