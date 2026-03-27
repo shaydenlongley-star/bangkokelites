@@ -112,6 +112,7 @@
       text-shadow: 0 2px 24px rgba(0,0,0,0.95), 0 0 80px rgba(7,17,26,0.9);
     }
     .exp-hero-h1 em { font-style: italic; color: rgba(255,255,255,0.75); }
+    .exp-hero-h1 .gold { color: #d4920a; font-style: normal; text-shadow: 0 0 40px rgba(212,146,10,0.6), 0 2px 24px rgba(0,0,0,0.95); }
     .exp-hero-sub {
       margin-top: 22px;
       font-size: clamp(0.8rem, 1.4vw, 0.95rem);
@@ -287,7 +288,7 @@
   <!-- Section 0 — Hero -->
   <div class="exp-hero" id="s0">
     <span class="exp-hero-eyebrow">Bangkok, Thailand — Est. 2025</span>
-    <h1 class="exp-hero-h1">Built for<br><em>the Bold.</em></h1>
+    <h1 class="exp-hero-h1">Built for<br><em>the <span class="gold">Bold.</span></em></h1>
     <p class="exp-hero-sub">Bangkok Elites &nbsp;·&nbsp; Youth Rugby Club &nbsp;·&nbsp; Ages 14 to 17</p>
   </div>
 
@@ -452,46 +453,53 @@
   tl.to(ballWrap, { scale: 1.06, ease: 'power2.inOut', duration: 0.4  }, 5.1);
 
   /* ── Hero fades out at 75% of section 0 ── */
-  tl.to(s0, { opacity: 0, y: -40, duration: 0.25, ease: 'power2.in' }, 0.75);
+  tl.to(s0, { opacity: 0, y: -40, duration: 0.2, ease: 'power2.in' }, 0.75);
 
-  /* ── Panel 1 (LEFT): visible during section 1 ──
-     Enters at 1.15, fully out by 1.85 (exit starts at 1.75) */
+  /* ─────────────────────────────────────────────────────────────
+     PANELS — each exits while the next is already entering,
+     so both are on screen briefly (~0.2 units of overlap).
+     Enter duration: 0.28 (fast snap in)
+     Exit duration:  0.22 (fast snap out)
+     Overlap window: exit starts 0.2 units before next enters
+  ───────────────────────────────────────────────────────────── */
+
+  /* Panel 1 (LEFT): enters 1.1, exits 1.7 → gone by 1.92 */
   tl.fromTo(panels[0],
     { opacity: 0, x: '-80vw', rotateY: -40 },
-    { opacity: 1, x: 0,       rotateY: 0,   duration: 0.4, ease: 'power3.out' },
-    1.15
+    { opacity: 1, x: 0,       rotateY: 0,   duration: 0.28, ease: 'power3.out' },
+    1.1
   );
-  tl.to(panels[0], { opacity: 0, x: '-60vw', rotateY: 30, duration: 0.25, ease: 'power2.in' }, 1.75);
+  tl.to(panels[0], { opacity: 0, x: '-55vw', rotateY: 28, duration: 0.22, ease: 'power2.in' }, 1.7);
 
-  /* ── Panel 2 (RIGHT): visible during section 2 ── */
+  /* Panel 2 (RIGHT): enters 1.75 → overlaps panel 1 exit by ~0.17 units */
   tl.fromTo(panels[1],
     { opacity: 0, x: '80vw', rotateY: 40 },
-    { opacity: 1, x: 0,      rotateY: 0,  duration: 0.4, ease: 'power3.out' },
-    2.15
+    { opacity: 1, x: 0,      rotateY: 0,  duration: 0.28, ease: 'power3.out' },
+    1.75
   );
-  tl.to(panels[1], { opacity: 0, x: '60vw', rotateY: -30, duration: 0.25, ease: 'power2.in' }, 2.75);
+  tl.to(panels[1], { opacity: 0, x: '55vw', rotateY: -28, duration: 0.22, ease: 'power2.in' }, 2.7);
 
-  /* ── Panel 3 (LEFT): visible during section 3 ── */
+  /* Panel 3 (LEFT): enters 2.75 → overlaps panel 2 exit */
   tl.fromTo(panels[2],
     { opacity: 0, x: '-80vw', rotateY: -40 },
-    { opacity: 1, x: 0,       rotateY: 0,   duration: 0.4, ease: 'power3.out' },
-    3.15
+    { opacity: 1, x: 0,       rotateY: 0,   duration: 0.28, ease: 'power3.out' },
+    2.75
   );
-  tl.to(panels[2], { opacity: 0, x: '-60vw', rotateY: 30, duration: 0.25, ease: 'power2.in' }, 3.75);
+  tl.to(panels[2], { opacity: 0, x: '-55vw', rotateY: 28, duration: 0.22, ease: 'power2.in' }, 3.7);
 
-  /* ── Panel 4 (RIGHT): visible during section 4 ── */
+  /* Panel 4 (RIGHT): enters 3.75 → overlaps panel 3 exit */
   tl.fromTo(panels[3],
     { opacity: 0, x: '80vw', rotateY: 40 },
-    { opacity: 1, x: 0,      rotateY: 0,  duration: 0.4, ease: 'power3.out' },
-    4.15
+    { opacity: 1, x: 0,      rotateY: 0,  duration: 0.28, ease: 'power3.out' },
+    3.75
   );
-  tl.to(panels[3], { opacity: 0, x: '60vw', rotateY: -30, duration: 0.25, ease: 'power2.in' }, 4.75);
+  tl.to(panels[3], { opacity: 0, x: '55vw', rotateY: -28, duration: 0.22, ease: 'power2.in' }, 4.7);
 
-  /* ── Panel 5 (CTA CENTER): visible during section 5, stays ── */
+  /* Panel 5 (CTA CENTER): enters 4.75 → overlaps panel 4 exit */
   tl.fromTo(panels[4],
-    { opacity: 0, scale: 0.8, y: 50 },
-    { opacity: 1, scale: 1,   y: 0,  duration: 0.5, ease: 'power3.out' },
-    5.15
+    { opacity: 0, scale: 0.82, y: 40 },
+    { opacity: 1, scale: 1,    y: 0,   duration: 0.35, ease: 'power3.out' },
+    4.75
   );
 
   /* ── Dot click to jump ── */
