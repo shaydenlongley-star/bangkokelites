@@ -4,179 +4,48 @@
   <meta charset="UTF-8">
   <link rel="icon" type="image/jpg" href="images/logo.jpg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bangkok Elites — The Pitch</title>
+  <title>Bangkok Elites — The Experience</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { overflow-x: hidden; background: #020810; }
+    html, body { overflow-x: hidden; background: #07111a; }
     body { font-family: 'Inter', sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
 
-    /* ── PINNED STAGE ── */
+    /* ── PINNED STAGE (GSAP handles the scroll height) ── */
     .exp-stage {
-      position: relative;
       width: 100%; height: 100vh;
       overflow: hidden;
-    }
-
-    /* ── SKY LAYERS ── */
-    .sky-dusk {
-      position: absolute; inset: 0; z-index: 1;
-      background:
-        radial-gradient(ellipse 45% 18% at 50% 95%, rgba(255,215,70,0.65) 0%, transparent 100%),
-        radial-gradient(ellipse 85% 42% at 50% 100%, #f26200 0%, #a83400 18%, #511600 40%, #150806 65%, #030810 100%);
-    }
-    .sky-night {
-      position: absolute; inset: 0; z-index: 2; opacity: 0;
-      background:
-        radial-gradient(ellipse 50% 22% at 20% 90%, rgba(50,110,220,0.28) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 22% at 80% 90%, rgba(50,110,220,0.28) 0%, transparent 70%),
-        radial-gradient(ellipse 95% 55% at 50% 100%, #24407e 0%, #0d1a4a 30%, #060e28 60%, #020408 100%);
-    }
-
-    /* ── STARS ── */
-    .stars {
-      position: absolute; inset: 0; z-index: 3;
-      opacity: 0; pointer-events: none;
-    }
-    .star {
-      position: absolute;
-      border-radius: 50%;
-      background: #fff;
-      animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s) alternate;
-    }
-    @keyframes twinkle {
-      from { opacity: var(--min, 0.3); }
-      to   { opacity: var(--max, 1);   }
-    }
-
-    /* ── CROWD SILHOUETTE ── */
-    .crowd-svg {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      width: 100%; height: 22vh;
-      z-index: 4; pointer-events: none;
-    }
-
-    /* ── FLOODLIGHT TOWERS ── */
-    .tower {
-      position: absolute;
-      top: 0;
-      z-index: 5;
-      pointer-events: none;
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      perspective: 1400px;
+      background: #07111a;
     }
-    .tower.t-l1 { left: 4%;  }
-    .tower.t-l2 { left: 13%; }
-    .tower.t-r1 { right: 4%;  }
-    .tower.t-r2 { right: 13%; }
-    .tower-pole {
-      width: 5px; height: 140px;
-      background: #252525;
-      border-radius: 0 0 3px 3px;
-    }
-    .tower.t-l2 .tower-pole, .tower.t-r2 .tower-pole { height: 110px; }
-    .tower-arm {
-      width: 55px; height: 5px;
-      background: #2a2a2a;
-      border-radius: 3px;
-    }
-    .tower-bulbs {
-      display: flex; gap: 6px; margin-top: 3px;
-    }
-    .bulb {
-      width: 10px; height: 7px;
-      border-radius: 2px;
-      background: #555;
-    }
-    .tower-cone {
-      position: absolute;
-      top: 153px; left: 50%;
-      transform: translateX(-50%);
-      width: 540px; height: 860px;
-      clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
-      background: linear-gradient(to bottom, rgba(255,248,195,0.20) 0%, rgba(255,238,155,0.06) 35%, rgba(255,228,130,0.015) 65%, transparent 100%);
-      pointer-events: none;
-      opacity: 0;
-    }
-    .tower.t-r1 .tower-cone, .tower.t-r2 .tower-cone { left: auto; right: 50%; transform: translateX(50%); }
 
-    /* ── PITCH WORLD (scrolled by GSAP) ── */
-    .pitch-world {
-      position: absolute;
-      left: 0; right: 0;
-      will-change: transform;
-      background:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' seed='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='200' filter='url(%23g)' opacity='0.075'/%3E%3C/svg%3E") 0 0 / 120px 200px repeat,
-        repeating-linear-gradient(171deg, transparent 0, transparent 6px, rgba(0,0,0,0.055) 6px, rgba(0,0,0,0.055) 7px),
-        repeating-linear-gradient(9deg,  transparent 0, transparent 6px, rgba(255,255,255,0.018) 6px, rgba(255,255,255,0.018) 7px),
-        repeating-linear-gradient(to bottom, #1e4a14 0px, #1e4a14 100px, #193e11 100px, #193e11 200px);
-      z-index: 6;
+    /* ── BACKGROUND GLOW ── */
+    .exp-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 60%, rgba(212,146,10,0.07) 0%, transparent 70%);
     }
-    /* Pitch side strips */
-    .pitch-world::before {
+
+    /* ── 3D GRID FLOOR ── */
+    .exp-grid {
+      position: absolute;
+      bottom: 0; left: -100%; width: 300%; height: 60%;
+      z-index: 1; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(212,146,10,0.065) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,146,10,0.065) 1px, transparent 1px);
+      background-size: 88px 88px;
+      transform: perspective(1000px) rotateX(72deg);
+      transform-origin: bottom center;
+    }
+    .exp-grid::before {
       content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      left: 0; width: 28px;
-      background: #163210;
-    }
-    .pitch-world::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      right: 0; width: 28px;
-      background: #163210;
-    }
-    .yard-line {
-      position: absolute;
-      left: 0; right: 0;
-      height: 2px;
-      background: rgba(255,255,255,0.22);
-    }
-    .yard-line.major {
-      height: 3px;
-      background: rgba(255,255,255,0.45);
-    }
-    .yard-line.halfway {
-      height: 4px;
-      background: rgba(255,255,255,0.6);
-    }
-    .yard-line.try-line {
-      height: 6px;
-      background: #d4920a;
-      box-shadow: 0 0 24px rgba(212,146,10,0.9), 0 0 80px rgba(212,146,10,0.4);
-    }
-    .line-label {
-      position: absolute;
-      top: 6px; left: 36px;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      pointer-events: none;
-    }
-    .yard-line.try-line .line-label {
-      color: rgba(212,146,10,0.9);
-      font-size: 12px;
-      top: 10px;
-    }
-    /* Hash marks on yard lines */
-    .hash {
-      position: absolute;
-      top: 0; width: 18px; height: 100%;
-      background: rgba(255,255,255,0.15);
-    }
-    .hash.h-l { left: 28px; }
-    .hash.h-r { right: 28px; }
-    /* In-goal area */
-    .in-goal {
-      position: absolute;
-      left: 0; right: 0; height: 180px;
-      background: rgba(212,146,10,0.04);
-      border-top: 4px solid rgba(212,146,10,0.3);
+      position: absolute; top: 0; left: 0; right: 0; height: 45%;
+      background: linear-gradient(to bottom, #07111a, transparent);
     }
 
     /* ── BALL ── */
@@ -184,255 +53,211 @@
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 12;
-      width: 380px; height: 380px;
+      z-index: 10;
+      width: 400px; height: 400px;
       will-change: transform;
     }
-    .ball-glow {
-      position: absolute; inset: -50px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(212,146,10,0.22) 0%, transparent 65%);
-      filter: blur(20px);
+    .exp-ball-glow {
+      position: absolute; inset: -60px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,146,10,0.28) 0%, transparent 65%);
+      filter: blur(24px);
       animation: glowPulse 3.5s ease-in-out infinite alternate;
     }
     @keyframes glowPulse {
-      from { opacity: 0.5; transform: scale(0.9); }
-      to   { opacity: 1;   transform: scale(1.1); }
+      from { opacity: 0.5; transform: scale(0.88); }
+      to   { opacity: 1;   transform: scale(1.12); }
     }
     .exp-ball {
       width: 100%; height: 100%;
       object-fit: contain;
       will-change: transform;
-      filter: drop-shadow(0 30px 50px rgba(0,0,0,0.7));
+      filter: drop-shadow(0 40px 80px rgba(0,0,0,0.7)) drop-shadow(0 0 40px rgba(212,146,10,0.12));
     }
-    .ball-shadow {
-      position: absolute; bottom: -16px; left: 50%;
+    .exp-ball-shadow {
+      position: absolute; bottom: -20px; left: 50%;
       transform: translateX(-50%);
-      width: 200px; height: 24px;
-      background: radial-gradient(ellipse, rgba(0,0,0,0.6) 0%, transparent 70%);
-      filter: blur(8px); z-index: -1;
+      width: 220px; height: 28px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.55) 0%, transparent 70%);
+      filter: blur(12px);
     }
     @media (max-width: 768px) {
-      .exp-ball-wrap { width: 220px; height: 220px; }
+      .exp-ball-wrap { width: 220px; height: 220px; top: 34%; }
     }
 
-    /* ── TRY FLASH ── */
-    .try-flash {
-      position: absolute; inset: 0; z-index: 20;
-      background: rgba(212,146,10,0.0);
-      pointer-events: none;
-      opacity: 0;
-    }
-    .try-text {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(4rem, 12vw, 9rem);
-      font-weight: 900; color: #d4920a;
-      text-shadow: 0 0 60px rgba(212,146,10,0.8);
-      opacity: 0; letter-spacing: 0.1em;
-      pointer-events: none; z-index: 21;
-    }
-
-    /* ── TEXT PANELS ── */
+    /* ── HERO COPY ── */
     .exp-hero {
       position: absolute;
-      top: 22%; left: 50%;
-      transform: translateX(-50%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
       text-align: center;
-      z-index: 14; width: 80%;
+      z-index: 12; width: 90%;
       pointer-events: none;
       will-change: transform, opacity;
-      background: radial-gradient(ellipse 70% 65% at center, rgba(2,8,16,0.68) 0%, transparent 100%);
-      padding: 50px 40px;
+      /* dark radial backdrop so text always reads over the ball */
+      background: radial-gradient(ellipse 65% 55% at center, rgba(7,17,26,0.72) 0%, transparent 100%);
+      padding: 60px 40px;
       border-radius: 50%;
     }
     .exp-hero-eyebrow {
       font-size: 0.68rem; font-weight: 700;
       letter-spacing: 0.26em; text-transform: uppercase;
-      color: rgba(255,255,255,0.5); display: block; margin-bottom: 16px;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+      color: rgba(255,255,255,0.55);
+      display: block; margin-bottom: 18px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.8);
     }
     .exp-hero-h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 8vw, 7rem);
+      font-size: clamp(3rem, 9vw, 7.5rem);
       font-weight: 900; line-height: 1.0; color: #fff;
       text-shadow: 0 2px 24px rgba(0,0,0,0.95), 0 0 80px rgba(7,17,26,0.9);
     }
-    .exp-hero-h1 em { font-style: italic; color: rgba(255,255,255,0.7); }
-    .gold { color: #d4920a; text-shadow: 0 0 40px rgba(212,146,10,0.6), 0 2px 24px rgba(0,0,0,0.95); }
+    .exp-hero-h1 em { font-style: italic; color: rgba(255,255,255,0.75); }
+    .exp-hero-h1 .gold { color: #d4920a; font-style: normal; text-shadow: 0 0 40px rgba(212,146,10,0.6), 0 2px 24px rgba(0,0,0,0.95); }
     .exp-hero-sub {
-      margin-top: 18px; font-size: clamp(0.78rem, 1.3vw, 0.9rem);
-      color: rgba(255,255,255,0.45); letter-spacing: 0.1em;
+      margin-top: 22px;
+      font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+      color: rgba(255,255,255,0.55); letter-spacing: 0.1em;
       text-shadow: 0 1px 8px rgba(0,0,0,0.9);
     }
 
+    /* ── PANELS ── */
     .exp-panel {
-      position: absolute; top: 50%;
-      width: 30%; max-width: 380px;
-      z-index: 14; opacity: 0;
-      pointer-events: none; will-change: transform, opacity;
+      position: absolute;
+      top: 50%;
+      width: 36%; max-width: 440px;
+      z-index: 12; opacity: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
     }
-    .exp-panel.panel-left  { left: 2%;  transform: translateY(-50%); }
-    .exp-panel.panel-right { right: 2%; transform: translateY(-50%); text-align: right; }
+    .exp-panel.panel-left  { left: 4%;  transform: translateY(-50%); }
+    .exp-panel.panel-right { right: 4%; transform: translateY(-50%); text-align: right; }
     .exp-panel.panel-center {
       left: 50%; transform: translate(-50%, -50%);
-      width: 54%; max-width: 640px; text-align: center;
-      background: radial-gradient(ellipse 80% 70% at center, rgba(2,8,16,0.78) 0%, transparent 100%);
-      padding: 56px 40px; border-radius: 50%;
+      width: 58%; max-width: 680px; text-align: center;
+      background: radial-gradient(ellipse 75% 65% at center, rgba(7,17,26,0.72) 0%, transparent 100%);
+      padding: 60px 40px;
+      border-radius: 50%;
     }
+
     .panel-eyebrow {
-      font-size: 0.66rem; font-weight: 700;
+      font-size: 0.68rem; font-weight: 700;
       letter-spacing: 0.2em; text-transform: uppercase;
-      color: #d4920a; display: block; margin-bottom: 12px;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+      color: #d4920a; display: block; margin-bottom: 14px;
     }
     .panel-heading {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.6rem, 2.6vw, 2.6rem);
-      font-weight: 900; line-height: 1.1; color: #fff; margin-bottom: 14px;
-      text-shadow: 0 2px 16px rgba(0,0,0,0.95);
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 900; line-height: 1.1; color: #fff; margin-bottom: 18px;
     }
     .panel-divider {
-      width: 40px; height: 3px;
+      width: 44px; height: 3px;
       background: linear-gradient(90deg, #0f1923, #d4920a);
-      border-radius: 2px; margin: 0 0 18px;
+      border-radius: 2px; margin: 0 0 20px;
     }
-    .panel-right .panel-divider  { margin: 0 0 18px auto; }
-    .panel-center .panel-divider { margin: 0 auto 18px; }
+    .panel-right .panel-divider  { margin: 0 0 20px auto; }
+    .panel-center .panel-divider { margin: 0 auto 20px; }
     .panel-body {
-      font-size: clamp(0.82rem, 1vw, 0.96rem);
-      line-height: 1.85; color: rgba(255,255,255,0.62);
-      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+      font-size: clamp(0.88rem, 1.1vw, 1rem);
+      line-height: 1.85; color: rgba(255,255,255,0.55);
     }
-    .panel-stat { margin-top: 20px; display: flex; gap: 24px; }
+    .panel-stat {
+      margin-top: 24px; display: flex; gap: 28px;
+    }
     .panel-right .panel-stat  { justify-content: flex-end; }
     .panel-center .panel-stat { justify-content: center; }
     .stat-num {
       font-family: 'Playfair Display', serif;
-      font-size: 2rem; font-weight: 900; color: #d4920a; line-height: 1;
-      text-shadow: 0 0 20px rgba(212,146,10,0.4);
+      font-size: 2.2rem; font-weight: 900; color: #d4920a; line-height: 1;
     }
     .stat-label {
-      font-size: 0.68rem; font-weight: 600;
+      font-size: 0.72rem; font-weight: 600;
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(255,255,255,0.3); margin-top: 4px;
+      color: rgba(255,255,255,0.35); margin-top: 4px;
     }
     .panel-cta {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 28px; background: #d4920a; color: #fff;
-      font-weight: 600; font-size: 0.92rem;
-      border-radius: 10px; text-decoration: none; margin-top: 24px;
+      padding: 14px 30px; background: #d4920a; color: #fff;
+      font-weight: 600; font-size: 0.95rem;
+      border-radius: 10px; text-decoration: none; margin-top: 28px;
       transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
       pointer-events: all;
     }
-    .panel-cta:hover { background: #b87a08; transform: translateY(-3px); box-shadow: 0 12px 36px rgba(212,146,10,0.4); }
+    .panel-cta:hover { background: #b87a08; transform: translateY(-3px); box-shadow: 0 12px 36px rgba(212,146,10,0.35); }
     .panel-cta-ghost {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 28px; background: transparent; color: rgba(255,255,255,0.6);
-      font-weight: 500; font-size: 0.88rem;
-      border-radius: 10px; text-decoration: none; margin-top: 24px; margin-left: 10px;
+      padding: 14px 30px; background: transparent; color: rgba(255,255,255,0.6);
+      font-weight: 500; font-size: 0.9rem;
+      border-radius: 10px; text-decoration: none; margin-top: 28px; margin-left: 12px;
       border: 1px solid rgba(255,255,255,0.2);
-      transition: border-color 0.3s, color 0.3s; pointer-events: all;
+      transition: border-color 0.3s, color 0.3s;
+      pointer-events: all;
     }
     .panel-cta-ghost:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
 
     @media (max-width: 900px) {
       .exp-panel {
-        width: 80% !important; left: 10% !important; right: 10% !important;
+        width: 82% !important; left: 9% !important; right: 9% !important;
         text-align: center !important; top: auto !important;
-        bottom: 9% !important; transform: none !important;
+        bottom: 8% !important; transform: none !important;
       }
       .panel-divider { margin-left: auto !important; margin-right: auto !important; }
       .panel-stat { justify-content: center !important; }
+      .panel-cta-ghost { margin-left: 0; margin-top: 12px; }
     }
 
     /* ── UI CHROME ── */
     .exp-back {
       position: fixed; top: 24px; left: 24px; z-index: 200;
       display: inline-flex; align-items: center; gap: 10px;
-      font-size: 0.76rem; font-weight: 600;
+      font-size: 0.78rem; font-weight: 600;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: rgba(255,255,255,0.35); text-decoration: none;
       transition: color 0.3s;
     }
     .exp-back:hover { color: #d4920a; }
+
     .exp-section-id {
       position: fixed; top: 24px; right: 28px; z-index: 200;
-      font-size: 0.7rem; font-weight: 600;
+      font-size: 0.72rem; font-weight: 600;
       letter-spacing: 0.14em; text-transform: uppercase;
       color: rgba(255,255,255,0.22);
     }
+
     .exp-progress-bar {
       position: fixed; top: 0; left: 0; height: 2px; z-index: 300;
       background: linear-gradient(90deg, #0f1923, #d4920a, #f5c53a);
       width: 0%; pointer-events: none;
     }
+
     .exp-dots {
-      position: fixed; bottom: 28px; left: 50%;
+      position: fixed; bottom: 32px; left: 50%;
       transform: translateX(-50%);
       display: flex; gap: 10px; z-index: 200;
     }
     .exp-dot {
       width: 6px; height: 6px; border-radius: 50%;
       background: rgba(255,255,255,0.18);
-      transition: background 0.4s, transform 0.4s; cursor: pointer;
+      transition: background 0.4s, transform 0.4s;
+      cursor: pointer;
     }
     .exp-dot.active { background: #d4920a; transform: scale(1.5); }
-    .scroll-hint {
-      position: absolute; bottom: 52px; left: 50%;
+
+    .exp-scroll-hint {
+      position: absolute; bottom: 64px; left: 50%;
       transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 8px;
-      font-size: 0.66rem; font-weight: 600;
+      font-size: 0.68rem; font-weight: 600;
       letter-spacing: 0.2em; text-transform: uppercase;
       color: rgba(255,255,255,0.25); z-index: 20; pointer-events: none;
     }
-    .scroll-line {
-      width: 1px; height: 40px;
+    .exp-scroll-line {
+      width: 1px; height: 44px;
       background: linear-gradient(to bottom, rgba(212,146,10,0.65), transparent);
       animation: linePulse 2s ease-in-out infinite;
     }
     @keyframes linePulse {
       0%,100% { opacity: 1; transform: scaleY(1); }
-      50%     { opacity: 0.3; transform: scaleY(0.5); }
-    }
-
-    /* ── PARTICLES ── */
-    .particle {
-      position: fixed; border-radius: 50%;
-      pointer-events: none; z-index: 100;
-      transform: translate(-50%, -50%);
-    }
-
-    /* ── FILM GRAIN (cinematic noise) ── */
-    .film-grain {
-      position: absolute; inset: 0; z-index: 57;
-      pointer-events: none; opacity: 0.038;
-      mix-blend-mode: screen;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-    }
-    /* ── VIGNETTE (dark edge framing) ── */
-    .vignette {
-      position: absolute; inset: 0; z-index: 56;
-      pointer-events: none;
-      background: radial-gradient(ellipse 76% 70% at 50% 50%, transparent 0%, rgba(0,0,0,0.75) 100%);
-    }
-    /* ── HORIZON GLOW (atmosphere) ── */
-    .horizon-glow {
-      position: absolute; left: 0; right: 0;
-      top: 49%; height: 80px;
-      transform: translateY(-100%);
-      z-index: 9; pointer-events: none;
-      background: linear-gradient(to bottom, rgba(230,100,15,0.16) 0%, transparent 100%);
-      filter: blur(14px);
-    }
-    /* ── PITCH GLOW (floodlight illumination) ── */
-    .pitch-glow {
-      position: absolute; left: 50%; bottom: 0;
-      transform: translateX(-50%);
-      width: 90%; height: 55%;
-      z-index: 7; pointer-events: none; opacity: 0;
-      background: radial-gradient(ellipse at 50% 100%, rgba(255,240,170,0.10) 0%, transparent 70%);
+      50%     { opacity: 0.35; transform: scaleY(0.55); }
     }
   </style>
 </head>
@@ -441,7 +266,7 @@
 <a href="index.html" class="exp-back">← Main Site</a>
 <div class="exp-section-id" id="expId">01 / 06</div>
 <div class="exp-progress-bar" id="expProg"></div>
-<div class="exp-dots">
+<div class="exp-dots" id="expDots">
   <div class="exp-dot active"></div>
   <div class="exp-dot"></div>
   <div class="exp-dot"></div>
@@ -450,71 +275,18 @@
   <div class="exp-dot"></div>
 </div>
 
+<!-- GSAP pins this and creates scroll space automatically -->
 <div class="exp-stage" id="expStage">
 
-  <!-- Sky -->
-  <div class="sky-dusk" id="skyDusk"></div>
-  <div class="sky-night" id="skyNight"></div>
-  <div class="stars" id="stars"></div>
+  <div class="exp-bg"></div>
+  <div class="exp-grid"></div>
 
-  <!-- Atmosphere -->
-  <div class="horizon-glow" id="horizonGlow"></div>
-  <div class="vignette"></div>
-  <div class="film-grain"></div>
-
-  <!-- Crowd silhouette (JS-generated) -->
-  <svg class="crowd-svg" id="crowdSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none"></svg>
-
-  <!-- Floodlight towers -->
-  <div class="tower t-l1" id="tl1">
-    <div class="tower-pole"></div>
-    <div class="tower-arm"></div>
-    <div class="tower-bulbs">
-      <div class="bulb" id="b1a"></div><div class="bulb" id="b1b"></div><div class="bulb" id="b1c"></div>
-    </div>
-    <div class="tower-cone" id="cone1"></div>
-  </div>
-  <div class="tower t-l2" id="tl2">
-    <div class="tower-pole"></div>
-    <div class="tower-arm"></div>
-    <div class="tower-bulbs">
-      <div class="bulb" id="b2a"></div><div class="bulb" id="b2b"></div><div class="bulb" id="b2c"></div>
-    </div>
-    <div class="tower-cone" id="cone2"></div>
-  </div>
-  <div class="tower t-r1" id="tr1">
-    <div class="tower-pole"></div>
-    <div class="tower-arm"></div>
-    <div class="tower-bulbs">
-      <div class="bulb" id="b3a"></div><div class="bulb" id="b3b"></div><div class="bulb" id="b3c"></div>
-    </div>
-    <div class="tower-cone" id="cone3"></div>
-  </div>
-  <div class="tower t-r2" id="tr2">
-    <div class="tower-pole"></div>
-    <div class="tower-arm"></div>
-    <div class="tower-bulbs">
-      <div class="bulb" id="b4a"></div><div class="bulb" id="b4b"></div><div class="bulb" id="b4c"></div>
-    </div>
-    <div class="tower-cone" id="cone4"></div>
-  </div>
-
-  <!-- Pitch world (GSAP scrolls this) -->
-  <div class="pitch-world" id="pitchWorld"></div>
-
-  <!-- Pitch floodlight glow -->
-  <div class="pitch-glow" id="pitchGlow"></div>
-
-  <!-- Ball (fixed at viewport center) -->
+  <!-- Ball -->
   <div class="exp-ball-wrap" id="expBallWrap" style="opacity:0;transform:translate(-50%,-50%) scale(0.4)">
-    <div class="ball-glow"></div>
+    <div class="exp-ball-glow"></div>
     <img class="exp-ball" id="expBall" src="images/download-removebg-preview.png" alt="Rugby ball" draggable="false">
-    <div class="ball-shadow"></div>
+    <div class="exp-ball-shadow"></div>
   </div>
-
-  <!-- Try flash & text -->
-  <div class="try-flash" id="tryFlash"></div>
-  <div class="try-text" id="tryText">TRY!</div>
 
   <!-- Section 0 — Hero -->
   <div class="exp-hero" id="s0" style="opacity:0">
@@ -552,7 +324,7 @@
     <span class="panel-eyebrow">03 — Discipline</span>
     <h2 class="panel-heading">The Work<br>Never Lies</h2>
     <div class="panel-divider"></div>
-    <p class="panel-body">You can't fake fitness. You can't charm your way out of a tackle. Rugby is completely honest — it shows you exactly where you are.<br><br>The discipline you earn on this pitch follows you into every classroom, every exam, every ambition you ever chase.</p>
+    <p class="panel-body">You can't fake fitness. You can't charm your way out of a tackle. Rugby is completely honest — it shows you exactly where you are.<br><br>The discipline you earn on this pitch follows you into every classroom, every exam, every ambition you ever chase in life.</p>
     <div class="panel-stat">
       <div><div class="stat-num">80</div><div class="stat-label">Min. Every Match</div></div>
       <div><div class="stat-num">0</div><div class="stat-label">Shortcuts</div></div>
@@ -564,7 +336,7 @@
     <span class="panel-eyebrow">04 — Belonging</span>
     <h2 class="panel-heading">Bangkok Is<br>Our Pitch</h2>
     <div class="panel-divider"></div>
-    <p class="panel-body">In a city of 10 million people, it's easy to feel like you don't have a place. Bangkok Elites exists to change that.<br><br>Whether you've played your whole life or never touched a ball — if you've got the energy and hunger to compete, you've got a spot.</p>
+    <p class="panel-body">In a city of 10 million people, it's easy to feel like you don't have a place. Bangkok Elites exists to change that.<br><br>Whether you've played your whole life or never touched a ball — if you've got the energy and the hunger to compete, you've got a spot in this squad.</p>
     <div class="panel-stat">
       <div><div class="stat-num">BKK</div><div class="stat-label">Home Ground</div></div>
       <div><div class="stat-num">∞</div><div class="stat-label">Room to Grow</div></div>
@@ -576,19 +348,22 @@
     <span class="panel-eyebrow">Bangkok Elites — Join the Squad</span>
     <h2 class="panel-heading">Think You've Got<br>What It Takes?</h2>
     <div class="panel-divider"></div>
-    <p class="panel-body" style="max-width:480px;margin:0 auto;">Spots are open. No experience needed — just energy, attitude, and a competitive mindset. Drop us a message on Instagram and come find out what Bangkok Elites is all about.</p>
-    <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:0;">
-      <a href="https://www.instagram.com/bangkokeliterugby/" target="_blank" rel="noopener" class="panel-cta">Message Us on Instagram</a>
+    <p class="panel-body" style="max-width:520px;margin:0 auto;">Spots are open. No experience needed — just energy, attitude, and a competitive mindset. Drop us a message on Instagram and come find out what Bangkok Elites is all about. First session is always free.</p>
+    <div style="display:flex;gap:0;justify-content:center;flex-wrap:wrap;">
+      <a href="https://www.instagram.com/bangkokeliterugby/" target="_blank" rel="noopener" class="panel-cta">
+        Message Us on Instagram
+      </a>
       <a href="index.html" class="panel-cta-ghost">Back to Main Site</a>
     </div>
   </div>
 
-  <div class="scroll-hint" id="scrollHint">
-    <div class="scroll-line"></div>
+  <!-- Scroll hint (hides after scroll starts) -->
+  <div class="exp-scroll-hint" id="expScrollHint">
+    <div class="exp-scroll-line"></div>
     Scroll
   </div>
 
-</div>
+</div><!-- end #expStage -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -599,195 +374,53 @@
   window.scrollTo(0, 0);
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ─── REFS ─── */
-  const ballWrap  = document.getElementById('expBallWrap');
-  const ball      = document.getElementById('expBall');
-  const progBar   = document.getElementById('expProg');
-  const sectionId = document.getElementById('expId');
-  const scrollHint= document.getElementById('expScrollHint') || document.querySelector('.scroll-hint');
-  const dots      = document.querySelectorAll('.exp-dot');
-  const s0        = document.getElementById('s0');
-  const panels    = ['s1','s2','s3','s4','s5'].map(id => document.getElementById(id));
-  const pitchWorld= document.getElementById('pitchWorld');
-  const skyDusk   = document.getElementById('skyDusk');
-  const skyNight  = document.getElementById('skyNight');
-  const starsEl   = document.getElementById('stars');
-  const tryFlash  = document.getElementById('tryFlash');
-  const tryText   = document.getElementById('tryText');
-  const crowdSvg  = document.getElementById('crowdSvg');
-  const pitchGlow = document.getElementById('pitchGlow');
-  const S_LABELS  = ['01 / 06','02 / 06','03 / 06','04 / 06','05 / 06','06 / 06'];
+  const ballWrap   = document.getElementById('expBallWrap');
+  const ball       = document.getElementById('expBall');
+  const progBar    = document.getElementById('expProg');
+  const scrollHint = document.getElementById('expScrollHint');
+  const sectionId  = document.getElementById('expId');
+  const dots       = document.querySelectorAll('.exp-dot');
+  const s0         = document.getElementById('s0');
+  const panels     = ['s1','s2','s3','s4','s5'].map(id => document.getElementById(id));
+  const S_LABELS   = ['01 / 06','02 / 06','03 / 06','04 / 06','05 / 06','06 / 06'];
 
-  /* ─── GENERATE CROWD ─── */
-  (function () {
-    const NS = 'http://www.w3.org/2000/svg';
-    const W  = 1440;
-    // Seeded XOR-shift RNG — same crowd every load
-    let _s = 0x9e3779b9;
-    const rng = () => { _s ^= _s << 13; _s ^= _s >> 17; _s ^= _s << 5; return (_s >>> 0) / 4294967296; };
+  /* ── INITIAL STATES ── */
+  gsap.set(ballWrap, { scale: 0.4, opacity: 0 });
+  gsap.set(s0,       { opacity: 0, y: 40 });
+  panels.forEach(p  => gsap.set(p, { transformPerspective: 1400, opacity: 0 }));
 
-    // Stand background
-    const bg = document.createElementNS(NS, 'rect');
-    bg.setAttribute('x', '0'); bg.setAttribute('y', '50');
-    bg.setAttribute('width', String(W)); bg.setAttribute('height', '70');
-    bg.setAttribute('fill', 'rgba(0,0,0,0.88)');
-    crowdSvg.appendChild(bg);
-
-    function crowdRow(baseY, minH, maxH, n, alpha) {
-      let d = `M0,120 L0,${baseY}`;
-      const pw = W / n;
-      for (let i = 0; i < n; i++) {
-        const mx   = pw * i + pw * 0.5;
-        const peakY = baseY - (minH + rng() * (maxH - minH));
-        d += ` Q${mx.toFixed(1)},${peakY.toFixed(1)} ${(pw * (i + 1)).toFixed(1)},${baseY}`;
-      }
-      d += ` L${W},120 Z`;
-      const p = document.createElementNS(NS, 'path');
-      p.setAttribute('d', d);
-      p.setAttribute('fill', `rgba(0,0,0,${alpha})`);
-      crowdSvg.appendChild(p);
-    }
-
-    crowdRow(56, 8,  16, 140, 0.52);  // far back  — tiny heads
-    crowdRow(64, 13, 20, 112, 0.66);  // middle row
-    crowdRow(75, 18, 28, 96,  0.82);  // front row — largest heads
-  })();
-
-  /* ─── GENERATE STARS ─── */
-  for (let i = 0; i < 80; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2.5 + 0.8;
-    s.style.cssText = `
-      left:${Math.random() * 100}%;
-      top:${Math.random() * 55}%;
-      width:${size}px; height:${size}px;
-      --dur:${2 + Math.random() * 4}s;
-      --delay:-${Math.random() * 4}s;
-      --min:${0.1 + Math.random() * 0.3};
-      --max:${0.5 + Math.random() * 0.5};
-    `;
-    starsEl.appendChild(s);
-  }
-
-  /* ─── GENERATE PITCH LINES ─── */
-  const LINE_SPACING  = 110;   // px between lines
-  const NUM_LINES     = 44;
-  const PITCH_PADDING = 300;   // extra space at top and bottom
-  const PITCH_H       = PITCH_PADDING + NUM_LINES * LINE_SPACING + PITCH_PADDING;
-
-  pitchWorld.style.height = PITCH_H + 'px';
-
-  // Yard line labels (from far end to try line)
-  const lineLabels = ['', '', '', '', '50m', '', '', '', '', '', '22m', '', '', '', '', '', '10m', '', '', '', 'HALFWAY', '', '', '', '10m', '', '', '', '', '', '22m', '', '', '', '', '', '50m', '', '', '', '', 'TRY LINE', '', ''];
-
-  for (let i = 0; i < NUM_LINES; i++) {
-    const line = document.createElement('div');
-    const yPos = PITCH_PADDING + i * LINE_SPACING;
-
-    let cls = 'yard-line';
-    if (i === NUM_LINES - 3) {
-      cls += ' try-line';
-    } else if (i % 10 === 0 || i % 10 === 5) {
-      cls += ' major';
-    } else if (i === Math.floor(NUM_LINES / 2)) {
-      cls += ' halfway';
-    }
-
-    line.className = cls;
-    line.style.top = yPos + 'px';
-
-    // Hash marks
-    ['h-l','h-r'].forEach(side => {
-      const h = document.createElement('div');
-      h.className = `hash ${side}`;
-      line.appendChild(h);
-    });
-
-    // Label on major lines
-    const lbl = lineLabels[i];
-    if (lbl) {
-      const span = document.createElement('span');
-      span.className = 'line-label';
-      span.textContent = lbl;
-      line.appendChild(span);
-    }
-
-    pitchWorld.appendChild(line);
-  }
-
-  // In-goal area (after try line)
-  const inGoal = document.createElement('div');
-  inGoal.className = 'in-goal';
-  inGoal.style.top = (PITCH_PADDING + (NUM_LINES - 3) * LINE_SPACING + 6) + 'px';
-  pitchWorld.appendChild(inGoal);
-
-  /* ─── PITCH SCROLL MATH ─── */
-  const vh = window.innerHeight;
-  const pitchStartY =  vh * 0.52;             // pitch top starts at viewport center on load
-  const tryLineY    = PITCH_PADDING + (NUM_LINES - 3) * LINE_SPACING; // try line position in pitch
-  const pitchEndY   = -(tryLineY - vh * 0.50 - 120); // end so try line is at ball center
-
-  pitchWorld.style.top = '0px';
-  gsap.set(pitchWorld, { y: pitchStartY });
-
-  // Rolling rotation: distance pitched travels / ball circumference × 360
-  const totalTravel   = pitchStartY - pitchEndY;
-  const ballRadius    = ballWrap.offsetWidth / 2 || 190;
-  const ballCirc      = 2 * Math.PI * ballRadius;
-  const totalRotation = (totalTravel / ballCirc) * 360;
-
-  /* ─── PANELS SETUP ─── */
-  panels.forEach(p => gsap.set(p, { transformPerspective: 1400, opacity: 0 }));
-
-  /* ─── INTRO ON LOAD ─── */
+  /* ── INTRO ON LOAD — page always starts at top due to scrollTo(0,0) ── */
   window.addEventListener('load', () => {
-    gsap.timeline({ delay: 0.3 })
+    gsap.timeline({ delay: 0.2 })
       .to(ballWrap, { scale: 1, opacity: 1, duration: 1.4, ease: 'power3.out' }, 0)
       .to(s0,       { opacity: 1, y: 0,    duration: 1.0, ease: 'power3.out' }, 0.5);
   });
 
-  /* ─── MOUSE PARALLAX (x only) ─── */
+  /* ── MOUSE PARALLAX (x axis only — y is owned by scroll timeline) ── */
   document.addEventListener('mousemove', e => {
     const mx = (e.clientX / window.innerWidth - 0.5);
-    gsap.to(ballWrap, { x: mx * 22, duration: 2.0, ease: 'power2.out', overwrite: 'auto' });
+    gsap.to(ballWrap, { x: mx * 30, duration: 2.0, ease: 'power2.out', overwrite: 'auto' });
   });
 
-  /* ─── SECTION UPDATER ─── */
-  let tryFired = false;
+  /* ── DOT / LABEL UPDATER ── */
   function setSection(idx) {
     dots.forEach((d, i) => d.classList.toggle('active', i === idx));
     sectionId.textContent = S_LABELS[Math.min(idx, 5)];
-    if (scrollHint) scrollHint.style.opacity = idx === 0 ? '1' : '0';
+    scrollHint.style.opacity = idx === 0 ? '1' : '0';
   }
 
-  /* ─── PARTICLE BURST ─── */
-  function burstParticles(cx, cy, count, big) {
-    const COLORS = ['#f5c53a','#d4920a','#fff','#ffe87a','#f5c53a'];
-    for (let i = 0; i < count; i++) {
-      const p   = document.createElement('div');
-      p.className = 'particle';
-      document.body.appendChild(p);
-      const angle = (i / count) * Math.PI * 2 + Math.random() * 0.5;
-      const dist  = (big ? 100 : 50) + Math.random() * (big ? 200 : 80);
-      const size  = big ? (6 + Math.random() * 10) : (3 + Math.random() * 6);
-      p.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
-      p.style.width = p.style.height = size + 'px';
-      gsap.set(p, { x: cx, y: cy, scale: 0, opacity: 1 });
-      gsap.to(p, {
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
-        scale: 1, opacity: 0,
-        duration: 0.6 + Math.random() * 0.6,
-        ease: 'power2.out',
-        onComplete: () => p.remove()
-      });
-    }
-  }
-
-  /* ══════════════════════════════════════════
+  /* ══════════════════════════════════════════════════════
      MAIN SCROLL TIMELINE
-  ══════════════════════════════════════════ */
+     Timeline is 6 units long (ball rotation = duration:6).
+     Each "section" occupies exactly 1 unit:
+       Section 0 (hero):   0 → 1
+       Section 1 (panel1): 1 → 2
+       Section 2 (panel2): 2 → 3
+       Section 3 (panel3): 3 → 4
+       Section 4 (panel4): 4 → 5
+       Section 5 (CTA):    5 → 6
+     All position values below are in these 0–6 units.
+  ══════════════════════════════════════════════════════ */
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger:    '#expStage',
@@ -799,89 +432,89 @@
       onUpdate: self => {
         progBar.style.width = (self.progress * 100) + '%';
         setSection(Math.min(5, Math.floor(self.progress * 6)));
-
-        // Try line drama at ~93% scroll
-        if (!tryFired && self.progress > 0.92) {
-          tryFired = true;
-          const bRect = ballWrap.getBoundingClientRect();
-          const cx = bRect.left + bRect.width  / 2;
-          const cy = bRect.top  + bRect.height / 2;
-
-          burstParticles(cx, cy, 32, true);
-
-          gsap.timeline()
-            .to(tryFlash, { opacity: 1, backgroundColor: 'rgba(212,146,10,0.25)', duration: 0.15, ease: 'none' })
-            .to(tryText,  { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(1.5)' }, 0.05)
-            .to(tryFlash, { opacity: 0, backgroundColor: 'rgba(212,146,10,0)', duration: 0.4 }, 0.3)
-            .to(tryText,  { opacity: 0, scale: 1.3, duration: 0.4, ease: 'power2.in' }, 0.5);
-        }
-        if (self.progress < 0.85) tryFired = false; // allow re-trigger on scroll back
       }
     }
   });
 
-  /* ── Pitch rolls upward (the core mechanic) ── */
-  tl.to(pitchWorld, { y: pitchEndY, ease: 'none', duration: 6 }, 0);
+  /* ── Ball: 4 full rotations across 6 units ── */
+  tl.to(ball, { rotation: 1440, ease: 'none', duration: 6 }, 0);
 
-  /* ── Ball rotates synced to pitch travel ── */
-  tl.to(ball, { rotation: totalRotation, ease: 'none', duration: 6 }, 0);
+  /* ── Ball: vertical drift, one tween per section ── */
+  tl.to(ballWrap, { y: -50, ease: 'sine.inOut', duration: 1 }, 1);
+  tl.to(ballWrap, { y:  35, ease: 'sine.inOut', duration: 1 }, 2);
+  tl.to(ballWrap, { y: -35, ease: 'sine.inOut', duration: 1 }, 3);
+  tl.to(ballWrap, { y:  40, ease: 'sine.inOut', duration: 1 }, 4);
+  tl.to(ballWrap, { y:   0, ease: 'sine.inOut', duration: 1 }, 5);
 
-  /* ── Sky: dusk fades out, night fades in ── */
-  tl.to(skyDusk,  { opacity: 0, ease: 'none', duration: 3.5 }, 0.8);
-  tl.to(skyNight, { opacity: 1, ease: 'none', duration: 3.5 }, 0.8);
+  /* ── Ball: scale pulse once per section ── */
+  tl.to(ballWrap, { scale: 1.15, ease: 'power2.inOut', duration: 0.25 }, 1.1);
+  tl.to(ballWrap, { scale: 1.0,  ease: 'power2.inOut', duration: 0.25 }, 1.4);
+  tl.to(ballWrap, { scale: 0.9,  ease: 'power2.inOut', duration: 0.25 }, 2.1);
+  tl.to(ballWrap, { scale: 1.0,  ease: 'power2.inOut', duration: 0.25 }, 2.4);
+  tl.to(ballWrap, { scale: 1.12, ease: 'power2.inOut', duration: 0.25 }, 3.1);
+  tl.to(ballWrap, { scale: 1.0,  ease: 'power2.inOut', duration: 0.25 }, 3.4);
+  tl.to(ballWrap, { scale: 0.92, ease: 'power2.inOut', duration: 0.25 }, 4.1);
+  tl.to(ballWrap, { scale: 1.0,  ease: 'power2.inOut', duration: 0.25 }, 4.4);
+  tl.to(ballWrap, { scale: 1.06, ease: 'power2.inOut', duration: 0.4  }, 5.1);
 
-  /* ── Stars appear as night falls ── */
-  tl.to(starsEl, { opacity: 1, ease: 'none', duration: 2.5 }, 1.5);
-
-  /* ── Floodlights: bulbs glow, cones appear ── */
-  const allBulbs = document.querySelectorAll('.bulb');
-  const allCones = document.querySelectorAll('.tower-cone');
-  tl.to(allBulbs, {
-    background: '#fffce0',
-    boxShadow: '0 0 16px 6px rgba(255,250,180,0.9), 0 0 50px 18px rgba(255,220,100,0.4)',
-    duration: 3, ease: 'power2.inOut', stagger: 0.08
-  }, 1.8);
-  tl.to(allCones, { opacity: 0.7, ease: 'power2.inOut', duration: 3 }, 1.8);
-  tl.to(pitchGlow, { opacity: 1, ease: 'power2.inOut', duration: 3 }, 1.8);
-
-  /* ── Hero text ── */
+  /* ── Hero fades out at 75% of section 0 ── */
   tl.to(s0, { opacity: 0, y: -40, duration: 0.2, ease: 'power2.in' }, 0.75);
 
-  /* ─────── PANELS — each section owns 1 timeline unit ───────
-     Section 0 (hero): 0–1
-     Section 1: 1–2  Section 2: 2–3  Section 3: 3–4
-     Section 4: 4–5  Section 5: 5–6
-  ──────────────────────────────────────────────────────── */
+  /* ─────────────────────────────────────────────────────────────
+     PANELS — each exits while the next is already entering,
+     so both are on screen briefly (~0.2 units of overlap).
+     Enter duration: 0.28 (fast snap in)
+     Exit duration:  0.22 (fast snap out)
+     Overlap window: exit starts 0.2 units before next enters
+  ───────────────────────────────────────────────────────────── */
+
+  /* Panel 1 (LEFT): enters 1.1, exits 1.7 → gone by 1.92 */
   tl.fromTo(panels[0],
-    { opacity: 0, x: '-70vw', rotateY: -35 },
-    { opacity: 1, x: 0,       rotateY: 0, duration: 0.28, ease: 'power3.out' }, 1.12);
-  tl.to(panels[0], { opacity: 0, x: '-50vw', rotateY: 25, duration: 0.22, ease: 'power2.in' }, 1.72);
+    { opacity: 0, x: '-80vw', rotateY: -40 },
+    { opacity: 1, x: 0,       rotateY: 0,   duration: 0.28, ease: 'power3.out' },
+    1.1
+  );
+  tl.to(panels[0], { opacity: 0, x: '-55vw', rotateY: 28, duration: 0.22, ease: 'power2.in' }, 1.7);
 
+  /* Panel 2 (RIGHT): enters 1.75 → overlaps panel 1 exit by ~0.17 units */
   tl.fromTo(panels[1],
-    { opacity: 0, x: '70vw', rotateY: 35 },
-    { opacity: 1, x: 0,      rotateY: 0, duration: 0.28, ease: 'power3.out' }, 1.78);
-  tl.to(panels[1], { opacity: 0, x: '50vw', rotateY: -25, duration: 0.22, ease: 'power2.in' }, 2.72);
+    { opacity: 0, x: '80vw', rotateY: 40 },
+    { opacity: 1, x: 0,      rotateY: 0,  duration: 0.28, ease: 'power3.out' },
+    1.75
+  );
+  tl.to(panels[1], { opacity: 0, x: '55vw', rotateY: -28, duration: 0.22, ease: 'power2.in' }, 2.7);
 
+  /* Panel 3 (LEFT): enters 2.75 → overlaps panel 2 exit */
   tl.fromTo(panels[2],
-    { opacity: 0, x: '-70vw', rotateY: -35 },
-    { opacity: 1, x: 0,       rotateY: 0, duration: 0.28, ease: 'power3.out' }, 2.78);
-  tl.to(panels[2], { opacity: 0, x: '-50vw', rotateY: 25, duration: 0.22, ease: 'power2.in' }, 3.72);
+    { opacity: 0, x: '-80vw', rotateY: -40 },
+    { opacity: 1, x: 0,       rotateY: 0,   duration: 0.28, ease: 'power3.out' },
+    2.75
+  );
+  tl.to(panels[2], { opacity: 0, x: '-55vw', rotateY: 28, duration: 0.22, ease: 'power2.in' }, 3.7);
 
+  /* Panel 4 (RIGHT): enters 3.75 → overlaps panel 3 exit */
   tl.fromTo(panels[3],
-    { opacity: 0, x: '70vw', rotateY: 35 },
-    { opacity: 1, x: 0,      rotateY: 0, duration: 0.28, ease: 'power3.out' }, 3.78);
-  tl.to(panels[3], { opacity: 0, x: '50vw', rotateY: -25, duration: 0.22, ease: 'power2.in' }, 4.72);
+    { opacity: 0, x: '80vw', rotateY: 40 },
+    { opacity: 1, x: 0,      rotateY: 0,  duration: 0.28, ease: 'power3.out' },
+    3.75
+  );
+  tl.to(panels[3], { opacity: 0, x: '55vw', rotateY: -28, duration: 0.22, ease: 'power2.in' }, 4.7);
 
+  /* Panel 5 (CTA CENTER): enters 4.75 → overlaps panel 4 exit */
   tl.fromTo(panels[4],
     { opacity: 0, scale: 0.82, y: 40 },
-    { opacity: 1, scale: 1,    y: 0,  duration: 0.38, ease: 'power3.out' }, 4.78);
+    { opacity: 1, scale: 1,    y: 0,   duration: 0.35, ease: 'power3.out' },
+    4.75
+  );
 
-  /* ── Dot click jump ── */
+  /* ── Dot click to jump ── */
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
-      const st = ScrollTrigger.getAll()[0];
+      const triggers = ScrollTrigger.getAll();
+      const st = triggers[0];
       if (!st) return;
-      window.scrollTo({ top: st.start + (st.end - st.start) * (i / 6), behavior: 'smooth' });
+      const scrollTarget = st.start + (st.end - st.start) * (i / 6);
+      window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
     });
   });
 
