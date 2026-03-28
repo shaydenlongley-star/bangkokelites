@@ -24,12 +24,15 @@
     .sky-dusk {
       position: absolute; inset: 0; z-index: 1;
       background:
-        radial-gradient(ellipse 120% 60% at 50% 100%, #c65a00 0%, #7a2800 25%, #1a0a00 55%, #030810 100%);
+        radial-gradient(ellipse 45% 18% at 50% 95%, rgba(255,215,70,0.65) 0%, transparent 100%),
+        radial-gradient(ellipse 85% 42% at 50% 100%, #f26200 0%, #a83400 18%, #511600 40%, #150806 65%, #030810 100%);
     }
     .sky-night {
       position: absolute; inset: 0; z-index: 2; opacity: 0;
       background:
-        radial-gradient(ellipse 120% 50% at 50% 100%, #1a3060 0%, #080f28 40%, #020408 100%);
+        radial-gradient(ellipse 50% 22% at 20% 90%, rgba(50,110,220,0.28) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 22% at 80% 90%, rgba(50,110,220,0.28) 0%, transparent 70%),
+        radial-gradient(ellipse 95% 55% at 50% 100%, #24407e 0%, #0d1a4a 30%, #060e28 60%, #020408 100%);
     }
 
     /* ── STARS ── */
@@ -91,10 +94,11 @@
     }
     .tower-cone {
       position: absolute;
-      top: 147px; left: 50%;
+      top: 153px; left: 50%;
       transform: translateX(-50%);
-      width: 280px; height: 500px;
-      background: radial-gradient(ellipse at top, rgba(255,240,180,0.0) 0%, transparent 70%);
+      width: 540px; height: 860px;
+      clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+      background: linear-gradient(to bottom, rgba(255,248,195,0.20) 0%, rgba(255,238,155,0.06) 35%, rgba(255,228,130,0.015) 65%, transparent 100%);
       pointer-events: none;
       opacity: 0;
     }
@@ -105,11 +109,11 @@
       position: absolute;
       left: 0; right: 0;
       will-change: transform;
-      background: repeating-linear-gradient(
-        to bottom,
-        #1e4a14 0px, #1e4a14 100px,
-        #193e11 100px, #193e11 200px
-      );
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' seed='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='200' filter='url(%23g)' opacity='0.075'/%3E%3C/svg%3E") 0 0 / 120px 200px repeat,
+        repeating-linear-gradient(171deg, transparent 0, transparent 6px, rgba(0,0,0,0.055) 6px, rgba(0,0,0,0.055) 7px),
+        repeating-linear-gradient(9deg,  transparent 0, transparent 6px, rgba(255,255,255,0.018) 6px, rgba(255,255,255,0.018) 7px),
+        repeating-linear-gradient(to bottom, #1e4a14 0px, #1e4a14 100px, #193e11 100px, #193e11 200px);
       z-index: 6;
     }
     /* Pitch side strips */
@@ -398,6 +402,38 @@
       pointer-events: none; z-index: 100;
       transform: translate(-50%, -50%);
     }
+
+    /* ── FILM GRAIN (cinematic noise) ── */
+    .film-grain {
+      position: absolute; inset: 0; z-index: 57;
+      pointer-events: none; opacity: 0.038;
+      mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+    /* ── VIGNETTE (dark edge framing) ── */
+    .vignette {
+      position: absolute; inset: 0; z-index: 56;
+      pointer-events: none;
+      background: radial-gradient(ellipse 76% 70% at 50% 50%, transparent 0%, rgba(0,0,0,0.75) 100%);
+    }
+    /* ── HORIZON GLOW (atmosphere) ── */
+    .horizon-glow {
+      position: absolute; left: 0; right: 0;
+      top: 49%; height: 80px;
+      transform: translateY(-100%);
+      z-index: 9; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(230,100,15,0.16) 0%, transparent 100%);
+      filter: blur(14px);
+    }
+    /* ── PITCH GLOW (floodlight illumination) ── */
+    .pitch-glow {
+      position: absolute; left: 50%; bottom: 0;
+      transform: translateX(-50%);
+      width: 90%; height: 55%;
+      z-index: 7; pointer-events: none; opacity: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(255,240,170,0.10) 0%, transparent 70%);
+    }
   </style>
 </head>
 <body>
@@ -421,10 +457,13 @@
   <div class="sky-night" id="skyNight"></div>
   <div class="stars" id="stars"></div>
 
-  <!-- Crowd silhouette -->
-  <svg class="crowd-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
-    <path d="M0,120 L0,62 C12,62 12,50 24,50 C36,50 36,68 48,68 C60,68 60,44 72,44 C84,44 84,58 96,58 C108,58 108,38 120,38 C132,38 132,55 144,55 C156,55 156,35 168,35 C180,35 180,52 192,52 C204,52 204,32 216,32 C228,32 228,48 240,48 C252,48 252,28 264,28 C276,28 276,44 288,44 C300,44 300,30 312,30 C324,30 324,46 336,46 C348,46 348,26 360,26 C372,26 372,42 384,42 C396,42 396,58 408,58 C420,58 420,38 432,38 C444,38 444,54 456,54 C468,54 468,34 480,34 C492,34 492,50 504,50 C516,50 516,66 528,66 C540,66 540,46 552,46 C564,46 564,30 576,30 C588,30 588,46 600,46 C612,46 612,28 624,28 C636,28 636,44 648,44 C660,44 660,60 672,60 C684,60 684,40 696,40 C708,40 708,56 720,56 C732,56 732,36 744,36 C756,36 756,52 768,52 C780,52 780,32 792,32 C804,32 804,48 816,48 C828,48 828,28 840,28 C852,28 852,44 864,44 C876,44 876,60 888,60 C900,60 900,42 912,42 C924,42 924,58 936,58 C948,58 948,38 960,38 C972,38 972,54 984,54 C996,54 996,36 1008,36 C1020,36 1020,52 1032,52 C1044,52 1044,68 1056,68 C1068,68 1068,48 1080,48 C1092,48 1092,32 1104,32 C1116,32 1116,48 1128,48 C1140,48 1140,28 1152,28 C1164,28 1164,44 1176,44 C1188,44 1188,60 1200,60 C1212,60 1212,42 1224,42 C1236,42 1236,58 1248,58 C1260,58 1260,38 1272,38 C1284,38 1284,54 1296,54 C1308,54 1308,34 1320,34 C1332,34 1332,50 1344,50 C1356,50 1356,66 1368,66 C1380,66 1380,48 1392,48 C1404,48 1404,62 1416,62 C1428,62 1428,52 1440,52 L1440,120 Z" fill="rgba(0,0,0,0.55)"/>
-  </svg>
+  <!-- Atmosphere -->
+  <div class="horizon-glow" id="horizonGlow"></div>
+  <div class="vignette"></div>
+  <div class="film-grain"></div>
+
+  <!-- Crowd silhouette (JS-generated) -->
+  <svg class="crowd-svg" id="crowdSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none"></svg>
 
   <!-- Floodlight towers -->
   <div class="tower t-l1" id="tl1">
@@ -462,6 +501,9 @@
 
   <!-- Pitch world (GSAP scrolls this) -->
   <div class="pitch-world" id="pitchWorld"></div>
+
+  <!-- Pitch floodlight glow -->
+  <div class="pitch-glow" id="pitchGlow"></div>
 
   <!-- Ball (fixed at viewport center) -->
   <div class="exp-ball-wrap" id="expBallWrap" style="opacity:0;transform:translate(-50%,-50%) scale(0.4)">
@@ -572,7 +614,44 @@
   const starsEl   = document.getElementById('stars');
   const tryFlash  = document.getElementById('tryFlash');
   const tryText   = document.getElementById('tryText');
+  const crowdSvg  = document.getElementById('crowdSvg');
+  const pitchGlow = document.getElementById('pitchGlow');
   const S_LABELS  = ['01 / 06','02 / 06','03 / 06','04 / 06','05 / 06','06 / 06'];
+
+  /* ─── GENERATE CROWD ─── */
+  (function () {
+    const NS = 'http://www.w3.org/2000/svg';
+    const W  = 1440;
+    // Seeded XOR-shift RNG — same crowd every load
+    let _s = 0x9e3779b9;
+    const rng = () => { _s ^= _s << 13; _s ^= _s >> 17; _s ^= _s << 5; return (_s >>> 0) / 4294967296; };
+
+    // Stand background
+    const bg = document.createElementNS(NS, 'rect');
+    bg.setAttribute('x', '0'); bg.setAttribute('y', '50');
+    bg.setAttribute('width', String(W)); bg.setAttribute('height', '70');
+    bg.setAttribute('fill', 'rgba(0,0,0,0.88)');
+    crowdSvg.appendChild(bg);
+
+    function crowdRow(baseY, minH, maxH, n, alpha) {
+      let d = `M0,120 L0,${baseY}`;
+      const pw = W / n;
+      for (let i = 0; i < n; i++) {
+        const mx   = pw * i + pw * 0.5;
+        const peakY = baseY - (minH + rng() * (maxH - minH));
+        d += ` Q${mx.toFixed(1)},${peakY.toFixed(1)} ${(pw * (i + 1)).toFixed(1)},${baseY}`;
+      }
+      d += ` L${W},120 Z`;
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', d);
+      p.setAttribute('fill', `rgba(0,0,0,${alpha})`);
+      crowdSvg.appendChild(p);
+    }
+
+    crowdRow(56, 8,  16, 140, 0.52);  // far back  — tiny heads
+    crowdRow(64, 13, 20, 112, 0.66);  // middle row
+    crowdRow(75, 18, 28, 96,  0.82);  // front row — largest heads
+  })();
 
   /* ─── GENERATE STARS ─── */
   for (let i = 0; i < 80; i++) {
@@ -763,6 +842,7 @@
     duration: 3, ease: 'power2.inOut', stagger: 0.08
   }, 1.8);
   tl.to(allCones, { opacity: 0.7, ease: 'power2.inOut', duration: 3 }, 1.8);
+  tl.to(pitchGlow, { opacity: 1, ease: 'power2.inOut', duration: 3 }, 1.8);
 
   /* ── Hero text ── */
   tl.to(s0, { opacity: 0, y: -40, duration: 0.2, ease: 'power2.in' }, 0.75);
