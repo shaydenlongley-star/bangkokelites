@@ -259,9 +259,44 @@
       0%,100% { opacity: 1; transform: scaleY(1); }
       50%     { opacity: 0.35; transform: scaleY(0.55); }
     }
+    /* ── PAGE CURTAIN ── */
+    .page-curtain {
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg, #0f1923 0%, #1a2e45 50%, #0f1923 100%);
+      z-index: 99999;
+      pointer-events: none;
+      transform: translateX(105%);
+      transition: transform 0.55s cubic-bezier(0.77, 0, 0.18, 1);
+      will-change: transform;
+    }
+    .page-curtain::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(212,146,10,0.15) 50%, transparent 100%);
+      pointer-events: none;
+    }
+    .page-curtain.sweep-in { transform: translateX(0%); pointer-events: all; }
+    .page-curtain.sweep-out { transform: translateX(-105%); }
+    /* ── SHOCKWAVE ── */
+    .shockwave {
+      position: fixed;
+      width: 24px; height: 24px;
+      border: 2px solid #d4920a;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10001;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0.8;
+      animation: shockwaveExpand 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes shockwaveExpand {
+      to { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+    }
   </style>
 </head>
 <body>
+
+<div id="pageCurtain" class="page-curtain"></div>
 
 <a href="index.html" class="exp-back">← Main Site</a>
 <div class="exp-section-id" id="expId">01 / 06</div>

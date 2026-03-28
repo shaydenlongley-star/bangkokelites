@@ -331,25 +331,149 @@
     btn.addEventListener('click', () => burstParticles(btn));
   });
 
-  /* ── CUSTOM CURSOR ── */
+  /* ── LIQUID CURSOR BLOB ── */
   if (window.matchMedia('(pointer: fine)').matches && typeof gsap !== 'undefined') {
     const cursor    = document.getElementById('cursor');
     const cursorDot = document.getElementById('cursorDot');
     if (cursor && cursorDot) {
+      let _prevMX = 0, _prevMY = 0, _hoverScale = 1;
+
       document.addEventListener('mousemove', e => {
-        gsap.to(cursor,    { x: e.clientX, y: e.clientY, duration: 0.45, ease: 'power3.out' });
-        gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.1,  ease: 'none' });
+        const dx    = e.clientX - _prevMX;
+        const dy    = e.clientY - _prevMY;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+        _prevMX     = e.clientX;
+        _prevMY     = e.clientY;
+
+        const sX = _hoverScale * Math.min(1 + speed * 0.032, 1.9);
+        const sY = _hoverScale * Math.max(1 - speed * 0.016, 0.55);
+        const rot = speed > 1.5 ? Math.atan2(dy, dx) * 180 / Math.PI : 0;
+
+        gsap.to(cursor, {
+          x: e.clientX, y: e.clientY,
+          scaleX: speed > 1 ? sX : _hoverScale,
+          scaleY: speed > 1 ? sY : _hoverScale,
+          rotation: speed > 1 ? rot : 0,
+          duration: speed > 1 ? 0.12 : 0.65,
+          ease:     speed > 1 ? 'power2.out' : 'elastic.out(1, 0.45)',
+          overwrite: 'auto'
+        });
+        gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'none' });
         cursor.style.opacity    = '1';
         cursorDot.style.opacity = '1';
       });
+
       document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0';
+        cursor.style.opacity    = '0';
         cursorDot.style.opacity = '0';
       });
+
       document.querySelectorAll('a, button, .perk-card, .pillar').forEach(el => {
-        el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 2.2, duration: 0.3, ease: 'power2.out' }));
-        el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1,   duration: 0.3, ease: 'power2.out' }));
+        el.addEventListener('mouseenter', () => { _hoverScale = 2.2; gsap.to(cursor, { scaleX: 2.2, scaleY: 2.2, duration: 0.3, ease: 'power2.out' }); });
+        el.addEventListener('mouseleave', () => { _hoverScale = 1;   gsap.to(cursor, { scaleX: 1,   scaleY: 1,   duration: 0.3, ease: 'power2.out' }); });
       });
+    }
+  }
+
+  /* ── CLICK SHOCKWAVE ── */
+  document.addEventListener('click', e => {
+    const ring = document.createElement('div');
+    ring.className = 'shockwave';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top  = e.clientY + 'px';
+    document.body.appendChild(ring);
+    ring.addEventListener('animationend', () => ring.remove());
+  });
+
+  /* ── PAGE TRANSITION CURTAIN ── */
+  (function () {
+    const curtain = document.getElementById('pageCurtain');
+    if (!curtain) return;
+
+    // Arriving on this page — sweep curtain out
+    if (sessionStorage.getItem('curtainEntry')) {
+      sessionStorage.removeItem('curtainEntry');
+      curtain.classList.add('sweep-in');
+      curtain.style.transition = 'none';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        curtain.style.transition = '';
+        curtain.classList.add('sweep-out');
+        curtain.addEventListener('transitionend', () => { curtain.style.pointerEvents = 'none'; }, { once: true });
+      }));
+    }
+
+    // Leaving this page — intercept same-origin local links
+    document.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('//') || href.startsWith('mailto')) return;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        sessionStorage.setItem('curtainEntry', '1');
+        curtain.classList.remove('sweep-out');
+        curtain.classList.add('sweep-in');
+        curtain.style.transition = '';
+        setTimeout(() => { window.location.href = href; }, 560);
+      });
+    });
+  })();
+
+  /* ── MAGNETIC LETTER REPULSION ── */
+  if (typeof gsap !== 'undefined' && heroSection && headline) {
+    const SETTLE_MS = (2.6 + 0.15 + 0.9 + (heroWords.length - 1) * 0.1 + 0.2 + 0.65 + 0.6) * 1000;
+    setTimeout(() => {
+      headline.querySelectorAll('.hero-word-inner').forEach(inner => {
+        const txt = inner.textContent;
+        inner.innerHTML = txt.split('').map(ch =>
+          `<span class="mag-char">${ch}</span>`
+        ).join('');
+      });
+
+      const RAD = 95;
+      heroSection.addEventListener('mousemove', e => {
+        headline.querySelectorAll('.mag-char').forEach(ch => {
+          const r  = ch.getBoundingClientRect();
+          const cx = r.left + r.width  / 2;
+          const cy = r.top  + r.height / 2;
+          const dx = e.clientX - cx;
+          const dy = e.clientY - cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < RAD) {
+            const f = (RAD - dist) / RAD;
+            gsap.to(ch, { x: -dx * f * 0.48, y: -dy * f * 0.48, duration: 0.28, ease: 'power2.out', overwrite: 'auto' });
+          } else {
+            gsap.to(ch, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.45)', overwrite: 'auto' });
+          }
+        });
+      });
+
+      heroSection.addEventListener('mouseleave', () => {
+        headline.querySelectorAll('.mag-char').forEach(ch => {
+          gsap.to(ch, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1, 0.4)', overwrite: 'auto' });
+        });
+      });
+    }, SETTLE_MS);
+  }
+
+  /* ── NUMBER COUNTER ROLL ── */
+  if (typeof gsap !== 'undefined') {
+    const statNums = document.querySelectorAll('.stat-num[data-count]');
+    if (statNums.length) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el  = entry.target;
+          const end = parseInt(el.getAttribute('data-count'), 10);
+          io.unobserve(el);
+          const obj = { n: 0 };
+          gsap.to(obj, {
+            n: end,
+            duration: 2.2,
+            ease: 'power3.out',
+            onUpdate: () => { el.textContent = Math.round(obj.n); }
+          });
+        });
+      }, { threshold: 0.5 });
+      statNums.forEach(el => io.observe(el));
     }
   }
 
