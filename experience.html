@@ -507,6 +507,54 @@
     4.75
   );
 
+  /* ── FLICKERING GRID ── */
+  (function () {
+    const stage  = document.getElementById('expStage');
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-hidden', 'true');
+    canvas.style.cssText = 'position:absolute;inset:0;z-index:2;pointer-events:none;';
+    stage.insertBefore(canvas, stage.firstChild);
+
+    const ctx  = canvas.getContext('2d');
+    const CELL = 54;
+    const COL  = 'rgba(212,146,10,';
+    let cols, rows, cells;
+
+    function resize() {
+      canvas.width  = stage.offsetWidth  || window.innerWidth;
+      canvas.height = stage.offsetHeight || window.innerHeight;
+      cols  = Math.ceil(canvas.width  / CELL) + 1;
+      rows  = Math.ceil(canvas.height / CELL) + 1;
+      cells = Array.from({ length: cols * rows }, (_, i) => ({
+        a: 0, t: 0,
+        s: 0.004 + (i % 9) * 0.0015   // varied fade speed
+      }));
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let lastFlick = 0;
+    function draw(ts) {
+      requestAnimationFrame(draw);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (ts - lastFlick > 90) {
+        const i = Math.floor(Math.random() * cells.length);
+        cells[i].t = 0.14 + Math.random() * 0.20;
+        lastFlick = ts;
+      }
+      cells.forEach((c, i) => {
+        c.a += (c.t - c.a) * c.s;
+        if (c.t > 0.01 && c.a >= c.t - 0.012) c.t = 0;
+        if (c.a < 0.004) return;
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        ctx.fillStyle = COL + c.a.toFixed(3) + ')';
+        ctx.fillRect(col * CELL + 1, row * CELL + 1, CELL - 2, CELL - 2);
+      });
+    }
+    requestAnimationFrame(draw);
+  })();
+
   /* ── Dot click to jump ── */
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {

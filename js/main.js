@@ -397,16 +397,23 @@
     btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
   });
 
-  /* ── CARD 3D TILT ── */
+  /* ── CARD 3D TILT + GLOW ── */
   document.querySelectorAll('.perk-card').forEach(card => {
     card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width  - 0.5;
-      const y = (e.clientY - r.top)  / r.height - 0.5;
-      card.style.transform = `perspective(800px) rotateX(${-y*5}deg) rotateY(${x*5}deg) translateY(-6px)`;
-      card.style.boxShadow = `${-x*12}px ${-y*12}px 32px rgba(15,25,35,0.18)`;
+      const r  = card.getBoundingClientRect();
+      const nx = (e.clientX - r.left) / r.width;
+      const ny = (e.clientY - r.top)  / r.height;
+      card.style.transform = `perspective(800px) rotateX(${-(ny-0.5)*5}deg) rotateY(${(nx-0.5)*5}deg) translateY(-6px)`;
+      card.style.boxShadow = `${-(nx-0.5)*12}px ${-(ny-0.5)*12}px 32px rgba(15,25,35,0.18)`;
+      card.style.setProperty('--glow-x', (nx * 100).toFixed(1) + '%');
+      card.style.setProperty('--glow-y', (ny * 100).toFixed(1) + '%');
+      card.style.setProperty('--glow-opacity', '1');
     });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; card.style.boxShadow = ''; });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.boxShadow = '';
+      card.style.setProperty('--glow-opacity', '0');
+    });
   });
 
   /* ── BACK TO TOP ── */
