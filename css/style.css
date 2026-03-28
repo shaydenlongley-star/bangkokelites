@@ -169,6 +169,10 @@ img { max-width: 100%; display: block; }
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 .hero-wave { position: absolute; bottom: -1px; left: 0; right: 0; z-index: 6; width: 100%; height: 72px; }
 
+/* ── "Bold." gold — last word in hero h1 ── */
+.hero h1 .hero-word:last-child .hero-word-inner,
+.hero h1 .hero-word:last-child .mag-char { color: var(--primary-light); }
+
 /* ── HERO H1 SHIMMER SWEEP ── */
 .hero h1 { position: relative; overflow: hidden; }
 .hero h1::after {
@@ -453,6 +457,21 @@ img { max-width: 100%; display: block; }
   .btn { white-space: normal; text-align: center; justify-content: center; }
   .back-to-top { bottom: 20px; right: 20px; }
   .section-header { margin-bottom: 40px; }
+}
+
+/* ============================================
+   SCROLL PROGRESS BAR
+   ============================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary) 50%, var(--primary-light));
+  z-index: 1001;
+  pointer-events: none;
+  transition: width 0.08s linear;
+  transform-origin: left center;
 }
 
 /* ============================================

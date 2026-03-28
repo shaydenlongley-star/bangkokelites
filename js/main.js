@@ -477,6 +477,15 @@
     }
   }
 
+  /* ── SCROLL PROGRESS BAR ── */
+  const scrollProg = document.getElementById('scrollProgress');
+  if (scrollProg) {
+    window.addEventListener('scroll', () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      scrollProg.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0).toFixed(2) + '%';
+    }, { passive: true });
+  }
+
   /* ── NAVBAR SCROLL STATE ── */
   const navbar = document.getElementById('navbar');
   if (navbar) {
